@@ -35,3 +35,10 @@ build/
 ### node ###
 /node_modules/
 package-lock.json
+
+### room front ###
+/room-front/node_modules/
+/room-front/package-lock.json
+
+### room server ###
+/room-server/src/main/resources/application.properties
