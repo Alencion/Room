@@ -41,4 +41,4 @@ package-lock.json
 /room-front/package-lock.json
 
 ### room server ###
-/room-server/src/main/resources/application.properties
+/room-server/src/main/resources/*.properties
