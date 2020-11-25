@@ -39,6 +39,7 @@ package-lock.json
 ### room front ###
 /room-front/node_modules/
 /room-front/package-lock.json
+/room-front/.eslintcache
 
 ### room server ###
 /room-server/src/main/resources/*.properties

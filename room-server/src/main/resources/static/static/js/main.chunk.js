@@ -1,0 +1,2 @@
+(this["webpackJsonproom-front"]=this["webpackJsonproom-front"]||[]).push([[0],{10:function(t,e,n){"use strict";n.r(e);var o=n(0),r=n(1),c=n.n(r),s=n(3),i=n.n(s);n(9);var a=function(){return Object(o.jsx)("div",{className:"App",children:"hello world"})};i.a.render(Object(o.jsx)(c.a.StrictMode,{children:Object(o.jsx)(a,{})}),document.getElementById("root"))},9:function(t,e,n){}},[[10,1,2]]]);
+//# sourceMappingURL=main.chunk.js.map
