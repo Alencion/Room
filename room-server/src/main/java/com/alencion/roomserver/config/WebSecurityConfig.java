@@ -1,6 +1,6 @@
 package com.alencion.roomserver.config;
 
-import com.alencion.roomserver.config.oauth.CustomOAuth2UserService;
+import com.alencion.roomserver.oauth.service.CustomOAuth2UserService;
 import com.alencion.roomserver.user.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -20,27 +20,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/swagger-ui.html",
                 "/webjars/**",
-                "/swagger/**",
-                "/room/**");
+                "/swagger/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
-                csrf().disable()
-                .headers().frameOptions().disable()
+        http.csrf().disable().anonymous()
                 .and()
-                    .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/images/**",
-                        "/js/**", "/h2-console/**").permitAll()
-                    .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-                    .anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/", "/static/css/**", "/static/images/**",
+                        "/static/js/**", "/h2-console/**").permitAll()
+                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+                .anyRequest().authenticated()
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
+                .logout()
+                    .deleteCookies("SESSION")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .logoutSuccessUrl("/login")
                 .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(customOAuth2UserService);
+                .oauth2Login()
+                    .userInfoEndpoint()
+                        .userService(customOAuth2UserService);
     }
 }

@@ -1,4 +1,4 @@
-package com.alencion.roomserver.config.oauth.dto;
+package com.alencion.roomserver.oauth.domain;
 
 import com.alencion.roomserver.user.domain.User;
 import lombok.Getter;
@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 @Getter
 public class SessionUser implements Serializable {
+
+    private static final long serialVersionUID = 4764342636065650410L;
+
     private String name;
     private String email;
     private String picture;

@@ -1,7 +1,7 @@
-package com.alencion.roomserver.config.oauth;
+package com.alencion.roomserver.oauth.service;
 
-import com.alencion.roomserver.config.oauth.dto.OAuthAttributes;
-import com.alencion.roomserver.config.oauth.dto.SessionUser;
+import com.alencion.roomserver.oauth.domain.OAuthAttributes;
+import com.alencion.roomserver.oauth.domain.SessionUser;
 import com.alencion.roomserver.user.domain.User;
 import com.alencion.roomserver.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +20,13 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2UserService delegate = new DefaultOAuth2UserService();
+        DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();

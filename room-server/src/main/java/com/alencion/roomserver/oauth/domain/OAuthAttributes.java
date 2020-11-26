@@ -1,4 +1,4 @@
-package com.alencion.roomserver.config.oauth.dto;
+package com.alencion.roomserver.oauth.domain;
 
 import com.alencion.roomserver.user.domain.Role;
 import com.alencion.roomserver.user.domain.User;
@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Getter
 public class OAuthAttributes {
+
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;
@@ -29,15 +30,18 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String registrationId,
                                      String userNameAttributeName,
                                      Map<String, Object> attributes) {
-        return ofGoogle(userNameAttributeName, attributes);
+        if (registrationId.equals("github")){
+            return ofGithub(userNameAttributeName, attributes);
+        }
+        return null;
     }
 
-    private static OAuthAttributes ofGoogle(String userNameAttributeName,
+    private static OAuthAttributes ofGithub(String userNameAttributeName,
                                             Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
-                .picture((String) attributes.get("picture"))
+                .picture((String) attributes.get("avatar_url"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
