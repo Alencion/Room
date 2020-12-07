@@ -1,20 +1,17 @@
 import React from 'react';
-import axios from 'axios';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Main from './routes/Main'
+import Login from './routes/Login'
 
 function App() {
-  const logout = () => {
-    axios.post('/logout').then(response => {console.log(response)});
-  }
-
   return (
     <div className="App">
-      <div>
-        With GitHub: <a href="/oauth2/authorization/github">click here</a>
-      </div>
-      <div>
-        With Google: <a href="/oauth2/authorization/google">click here</a>
-      </div>
-      <button onClick={logout}>logout</button>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/signin" exact component={Login} />
+          <Route path="/" component={Main} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
