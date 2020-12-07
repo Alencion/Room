@@ -1,34 +1,34 @@
 package com.alencion.roomserver.room.controller;
 
-import com.alencion.roomserver.oauth.domain.SessionUser;
+import com.alencion.roomserver.room.domain.FormRoom;
 import com.alencion.roomserver.room.domain.Room;
-import com.alencion.roomserver.room.repository.RoomRepository;
+import com.alencion.roomserver.room.service.RoomService;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/room")
 @Api(value = "room")
 public class RoomController {
 
-    private final RoomRepository roomRepository;
-    private final HttpSession httpSession;
+    private final RoomService roomService;
 
-    public RoomController(RoomRepository roomRepository, HttpSession httpSession) {
-        this.roomRepository = roomRepository;
-        this.httpSession = httpSession;
+    public RoomController(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     @PostMapping("/{userId}")
-    public List<Room> getRoom(@PathVariable("userId") Long userId) {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if (!user.getId().equals(userId)) return null;
-        return roomRepository.findAllByUserId(userId);
+    public List<Room> getRooms(@PathVariable("userId") Long userId) {
+        return roomService.getRooms(userId);
+    }
+
+    @PostMapping("/{userId}/generation")
+    public void addRoom(@PathVariable Long userId, @RequestParam FormRoom formRoom) {
+        Objects.requireNonNull(formRoom);
+
+        roomService.addRoom(userId, formRoom);
     }
 }

@@ -1,4 +1,4 @@
-package com.alencion.roomserver.user.domain.controller;
+package com.alencion.roomserver.user.controller;
 
 import com.alencion.roomserver.oauth.domain.SessionUser;
 import lombok.RequiredArgsConstructor;

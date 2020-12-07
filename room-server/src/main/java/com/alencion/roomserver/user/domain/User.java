@@ -1,10 +1,13 @@
 package com.alencion.roomserver.user.domain;
 
+import com.alencion.roomserver.room.domain.Participant;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -27,6 +30,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private final List<Participant> participantList = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {
