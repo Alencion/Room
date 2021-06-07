@@ -11,6 +11,7 @@
 
     <modules>
         <module>room-server</module>
+        <module>room-socket-server</module>
     </modules>
 
     <profiles>
