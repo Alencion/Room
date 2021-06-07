@@ -1,5 +1,6 @@
 package com.alenction.socket.websocket.config;
 
+import com.alenction.socket.chat.handler.ChatHandler;
 import com.alenction.socket.websocket.handler.EchoHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ public class WebSocketConfig {
         SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         Map<String, WebSocketHandler> handlerMap = new LinkedHashMap<>();
         handlerMap.put("/ws/echo", new EchoHandler());
+        handlerMap.put("/ws/chat", new ChatHandler());
         simpleUrlHandlerMapping.setUrlMap((handlerMap));
         simpleUrlHandlerMapping.setOrder(-1);
         return simpleUrlHandlerMapping;
