@@ -43,5 +43,6 @@ package-lock.json
 /room-front/debug.log
 
 ### room server ###
-/room-server/src/main/resources/*.properties
+#/room-server/src/main/resources/*.properties
+/room-server/application.properties
 /room-server/src/main/resources/static
