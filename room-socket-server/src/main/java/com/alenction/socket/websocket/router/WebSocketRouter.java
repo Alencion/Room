@@ -1,4 +1,4 @@
-package com.alenction.socket.websocket.config;
+package com.alenction.socket.websocket.router;
 
 import com.alenction.socket.chat.handler.ChatHandler;
 import com.alenction.socket.websocket.handler.EchoHandler;
@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
-public class WebSocketConfig {
+public class WebSocketRouter {
 
     @Bean
     public HandlerMapping webSocketMapping() {
