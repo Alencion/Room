@@ -45,5 +45,5 @@ package-lock.json
 /room-front/build
 
 ### room server ###
-/room-server/src/main/resources/*.properties
+/room-server/application.properties
 /room-server/src/main/resources/static
