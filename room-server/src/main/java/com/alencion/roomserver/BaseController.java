@@ -12,7 +12,6 @@ public class BaseController implements ErrorController {
         return "index.html";
     }
 
-    @Override
     public String getErrorPath() {
         return "/error";
     }

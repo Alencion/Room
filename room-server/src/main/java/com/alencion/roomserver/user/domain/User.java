@@ -1,17 +1,20 @@
 package com.alencion.roomserver.user.domain;
 
-import com.alencion.roomserver.room.domain.Participant;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
+@Data
 @NoArgsConstructor
 @Entity
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
 
     @Id
@@ -24,6 +27,12 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private boolean emailVerified = false;
+
+    @JsonIgnore
+    private String password;
+
     @Column
     private String picture;
 
@@ -31,15 +40,23 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private final List<Participant> participantList = new ArrayList<>();
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(Long id, String name, String email, boolean emailVerified, String password, String picture, @NotNull AuthProvider provider, String providerId) {
+        this.id = id;
         this.name = name;
         this.email = email;
+        this.emailVerified = emailVerified;
+        this.password = password;
         this.picture = picture;
-        this.role = role;
+        this.role = Role.USER;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     public User update(String name, String picture) {

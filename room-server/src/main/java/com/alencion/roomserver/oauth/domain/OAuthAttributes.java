@@ -1,6 +1,5 @@
 package com.alencion.roomserver.oauth.domain;
 
-import com.alencion.roomserver.user.domain.Role;
 import com.alencion.roomserver.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class OAuthAttributes {
                            String nameAttributeKey, String name,
                            String email, String picture) {
         this.attributes = attributes;
-        this.nameAttributeKey= nameAttributeKey;
+        this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
         this.picture = picture;
@@ -30,7 +29,7 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String registrationId,
                                      String userNameAttributeName,
                                      Map<String, Object> attributes) {
-        if (registrationId.equals("github")){
+        if (registrationId.equals("github")) {
             return ofGithub(userNameAttributeName, attributes);
         }
         return null;
@@ -53,7 +52,6 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.GUEST)
                 .build();
     }
 }
