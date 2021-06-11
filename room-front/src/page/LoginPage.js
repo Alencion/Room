@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from '../component/Header'
+import { REDIRECT_URL } from '../constant'
 import { GITHUB } from '../constant/Icon'
 import LoginButton from '../presenter/button/LoginBtn'
 import Icon from '../presenter/icon/Icon'
@@ -20,8 +21,7 @@ const LoginPage = () => {
           <a
             method="GET"
             href={
-              baseURL +
-              '/oauth2/authorize/github?redirect_uri=http://localhost:3000/oauth2/redirect'
+              baseURL + '/oauth2/authorize/github?redirect_uri=' + REDIRECT_URL
             }
           >
             <LoginButton icon={githubIcon} label={'Login With github'} />
