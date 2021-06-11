@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from '../component/Header'
+import { REDIRECT_URL } from '../constant'
 import { GITHUB } from '../constant/Icon'
 import LoginButton from '../presenter/button/LoginBtn'
 import Icon from '../presenter/icon/Icon'
@@ -17,9 +18,14 @@ const LoginPage = () => {
       <CenterWrapper>
         <div>
           <LoginTitle>Room에 로그인</LoginTitle>
-          <form method="GET" action={baseURL + '/api/user/sign-in/github'}>
+          <a
+            method="GET"
+            href={
+              baseURL + '/oauth2/authorize/github?redirect_uri=' + REDIRECT_URL
+            }
+          >
             <LoginButton icon={githubIcon} label={'Login With github'} />
-          </form>
+          </a>
         </div>
       </CenterWrapper>
     </>
