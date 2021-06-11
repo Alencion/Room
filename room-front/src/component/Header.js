@@ -1,41 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { COLOR } from '../constant/style'
+import CenterWrapper from '../presenter/wrapper/CenterWrapper'
 import HeaderProfile from './HeaderProfile'
 
-const Header = ({ isAuthenticated }) => {
+const Header = ({ currentUser = undefined }) => {
   const history = useHistory()
+  const [isAuthentication, setIsAuthentication] = useState(
+    currentUser === undefined,
+  )
 
   const loginClickHandle = () => {
     history.push('/login')
   }
 
+  const logoutClickHandle = () => {
+    localStorage.clear()
+    setIsAuthentication(false)
+  }
+
   return (
-    <>
-      <HeaderWrapper>
+    <HeaderWrapper>
+      <CenterWrapper>
         <Logo>
           <Link to="/">Room</Link>
         </Logo>
 
         <SignWrapper>
-          {isAuthenticated ? (
+          {isAuthentication ? (
             <>
-              <HeaderProfile />
-              <button>Logout</button>
+              <HeaderProfile currentUser={currentUser} />
+              <button onClick={logoutClickHandle}>Logout</button>
             </>
           ) : (
             <button onClick={loginClickHandle}>logIn</button>
           )}
         </SignWrapper>
-      </HeaderWrapper>
-    </>
+      </CenterWrapper>
+    </HeaderWrapper>
   )
 }
 
 const HeaderWrapper = styled.div`
   display: flex;
   height: 80px;
+
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 `
 
 const Logo = styled.div`
@@ -46,6 +57,10 @@ const Logo = styled.div`
 
   font-family: 'Damion';
   font-size: 40px;
+
+  & > a {
+    color: rgb(80, 80, 80);
+  }
 `
 
 const SignWrapper = styled.div`
@@ -53,6 +68,10 @@ const SignWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: auto;
+
+  & > * {
+    margin-left: 10px;
+  }
 
   & > button {
     background: #fff;

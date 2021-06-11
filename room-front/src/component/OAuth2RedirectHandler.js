@@ -5,7 +5,7 @@ import { ACCESS_TOKEN } from '../constant'
 
 const OAuth2RedirectHandler = ({ location }) => {
   const getUrlParameter = name => {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
+    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]')
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
 
     var results = regex.exec(location.search)
@@ -21,7 +21,7 @@ const OAuth2RedirectHandler = ({ location }) => {
     if (token) {
       localStorage.setItem(ACCESS_TOKEN, token)
     }
-  }, [])
+  }, [token])
 
   return (
     <>
