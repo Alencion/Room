@@ -17,9 +17,15 @@ const LoginPage = () => {
       <CenterWrapper>
         <div>
           <LoginTitle>Room에 로그인</LoginTitle>
-          <form method="GET" action={baseURL + '/api/user/sign-in/github'}>
+          <a
+            method="GET"
+            href={
+              baseURL +
+              '/oauth2/authorize/github?redirect_uri=http://localhost:3000/oauth2/redirect'
+            }
+          >
             <LoginButton icon={githubIcon} label={'Login With github'} />
-          </form>
+          </a>
         </div>
       </CenterWrapper>
     </>
