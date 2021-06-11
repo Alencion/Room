@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Header from '../component/Header'
 import { GITHUB } from '../constant/Icon'
 import LoginButton from '../presenter/button/LoginBtn'
 import Icon from '../presenter/icon/Icon'
@@ -12,8 +11,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <Header />
-
       <CenterWrapper>
         <div>
           <LoginTitle>Room에 로그인</LoginTitle>
