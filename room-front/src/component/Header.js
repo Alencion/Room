@@ -5,7 +5,7 @@ import { COLOR } from '../constant/style'
 import CenterWrapper from '../presenter/wrapper/CenterWrapper'
 import HeaderProfile from './HeaderProfile'
 
-const Header = ({ currentUser = undefined }) => {
+const Header = ({ currentUser = undefined, LogoutHandle }) => {
   const history = useHistory()
   const [isAuthentication, setIsAuthentication] = useState(
     currentUser === undefined,
@@ -16,6 +16,7 @@ const Header = ({ currentUser = undefined }) => {
   }
 
   const logoutClickHandle = () => {
+    LogoutHandle()
     localStorage.clear()
     setIsAuthentication(false)
   }

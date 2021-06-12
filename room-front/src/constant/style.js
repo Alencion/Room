@@ -1,5 +1,8 @@
 export const COLOR = {
-  PAGE_BACKGROUND_COLOR: '#f3f3f3',
   BORDER_COLOR: '#999999',
-  LIGHT_BLUE: '#4fc3f7',
+  BLACK: '#000000',
+  GREY: '#808088',
+  LIGHT_BLACK: '#333333',
+  LIGHT_BLUE: '#40a9ff',
+  LIGHT_GREY: '#f3f3f3',
 }
