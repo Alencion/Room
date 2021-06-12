@@ -38,7 +38,7 @@ const MainPage = () => {
               <div className="buttons">
                 <NoBorderBtn
                   onClick={() => {
-                    history.push('/rooms')
+                    history.push('/room')
                   }}
                   value="룸 생성하기"
                 />
