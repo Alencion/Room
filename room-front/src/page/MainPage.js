@@ -7,6 +7,7 @@ import RoomCard from '../component/RoomCard'
 import { ACCESS_TOKEN } from '../constant'
 import { COLOR } from '../constant/style'
 import NoBorderBtn from '../presenter/button/NoBorderBtn'
+import PageWrapper from '../presenter/wrapper/PageWrapper'
 
 const MainPage = () => {
   const history = useHistory()
@@ -29,7 +30,7 @@ const MainPage = () => {
     <>
       <Header currentUser={user} LogoutHandle={LogoutHandle} />
 
-      <PageStyle>
+      <PageWrapper>
         <CenterWrapper>
           {user && (
             <ContentsWrapper>
@@ -66,15 +67,11 @@ const MainPage = () => {
             </ContentsWrapper>
           )}
         </CenterWrapper>
-      </PageStyle>
+      </PageWrapper>
     </>
   )
 }
 
-const PageStyle = styled.div`
-  width: 100%;
-  height: 100%;
-`
 const CenterWrapper = styled.div`
   display: flex;
   width: 1200px;
