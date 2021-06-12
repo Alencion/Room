@@ -21,9 +21,13 @@ const MainPage = () => {
     }
   }, [])
 
+  const LogoutHandle = () => {
+    setUser(undefined)
+  }
+
   return (
     <>
-      <Header currentUser={user} />
+      <Header currentUser={user} LogoutHandle={LogoutHandle} />
 
       <PageStyle>
         <CenterWrapper>

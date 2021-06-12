@@ -12,7 +12,7 @@ const PrimaryButton = styled.button`
   border-radius: 4px;
   width: 110px;
   height: 30px;
-  color: ${COLOR.GREY};
+  color: ${COLOR.LIGHT_BLACK};
   transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   font-weight: bold;
 
@@ -20,6 +20,7 @@ const PrimaryButton = styled.button`
     cursor: pointer;
     border: 1px solid ${COLOR.LIGHT_BLUE};
     color: ${COLOR.LIGHT_BLUE};
+    box-shadow: 0px 0px 3px 0px rgba(64, 169, 255, 0.5);
   }
 
   :active {
