@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.servlet.Filter;
 
 @SpringBootApplication
+@EnableJpaAuditing
 @EnableConfigurationProperties(AppProperties.class)
 public class RoomServerApplication {
 

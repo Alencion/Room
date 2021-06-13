@@ -1,16 +1,15 @@
-package com.alencion.roomserver.room.domain;
+package com.alencion.roomserver.room.payload;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-public class FormRoom implements Serializable {
+@Data
+public class CreateRoomRequest implements Serializable {
 
     private static final long serialVersionUID = 4846700985067132980L;
 
     private String title;
     private String description;
+    private boolean isPublic;
 }

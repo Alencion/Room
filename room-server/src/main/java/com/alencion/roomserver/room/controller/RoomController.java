@@ -1,6 +1,6 @@
 package com.alencion.roomserver.room.controller;
 
-import com.alencion.roomserver.room.domain.FormRoom;
+import com.alencion.roomserver.room.payload.CreateRoomRequest;
 import com.alencion.roomserver.room.domain.Room;
 import com.alencion.roomserver.room.service.RoomService;
 import io.swagger.annotations.Api;
@@ -20,15 +20,15 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @PostMapping("/{userId}")
+    @GetMapping("/{userId}")
     public List<Room> getRooms(@PathVariable("userId") Long userId) {
         return roomService.getRooms(userId);
     }
 
-    @PostMapping("/{userId}/generation")
-    public void addRoom(@PathVariable Long userId, @RequestParam FormRoom formRoom) {
-        Objects.requireNonNull(formRoom);
+    @PostMapping("/{userId}/new")
+    public void addRoom(@PathVariable Long userId, @RequestParam CreateRoomRequest createRoomRequest) {
+        Objects.requireNonNull(createRoomRequest);
 
-        roomService.addRoom(userId, formRoom);
+        roomService.createRoom(userId, createRoomRequest);
     }
 }

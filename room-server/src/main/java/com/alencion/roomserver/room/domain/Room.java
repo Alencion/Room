@@ -1,47 +1,41 @@
 package com.alencion.roomserver.room.domain;
 
-import com.alencion.roomserver.user.domain.User;
+import com.alencion.roomserver.common.domain.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
-
-public class Room {
+public class Room extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @OneToOne
-    private User owner;
-
-    @OneToMany(mappedBy = "room")
-    private final List<Participant> participantList = new ArrayList<>();
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private final List<Participant> participants = new ArrayList<>();
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = true)
     private String description;
 
-    @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime createTime;
+    private boolean isPublic;
 
     @Builder
-    public Room(User owner, String title, String description) {
-        this.owner = owner;
+    public Room(Long id, String title, String description, boolean isPublic) {
+        this.id = id;
         this.title = title;
         this.description = description;
+        this.isPublic = isPublic;
     }
 }
