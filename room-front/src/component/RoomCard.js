@@ -9,6 +9,9 @@ const RoomCard = ({ room }) => {
   )
 }
 
-const RoomCardWrapper = styled.div``
+const RoomCardWrapper = styled.div`
+  width: 200px;
+  height: 200px;
+`
 
 export default RoomCard

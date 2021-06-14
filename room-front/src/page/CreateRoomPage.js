@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import RoomApi from '../api/RoomApi'
 import UserApi from '../api/UserApi'
 import { ACCESS_TOKEN } from '../constant'
 import { COLOR } from '../constant/style'
@@ -8,6 +10,7 @@ import PrimaryInput from '../presenter/input/PrimaryInput'
 import PageWrapper from '../presenter/wrapper/PageWrapper'
 
 const CreateRoomPage = () => {
+  const history = useHistory()
   const [user, setUser] = useState()
   const [room, setRoom] = useState({
     title: '',
@@ -34,6 +37,12 @@ const CreateRoomPage = () => {
     } else {
       setCreateDisabled(true)
     }
+  }
+
+  const createRoomOnClick = () => {
+    RoomApi.createRoom(user.id, room).then(res => {
+      history.replace(`/room/${user.id}/${res.id}`)
+    })
   }
 
   return (
@@ -97,10 +106,7 @@ const CreateRoomPage = () => {
               Private
             </Radio>
           </InputWrapper>
-          <PrimaryBtn
-            disabled={createDisabled}
-            onClick={() => console.log(room)}
-          >
+          <PrimaryBtn disabled={createDisabled} onClick={createRoomOnClick}>
             생성
           </PrimaryBtn>
         </CreateRoomWrapper>

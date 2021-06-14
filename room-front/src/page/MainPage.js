@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import RoomApi from '../api/RoomApi'
 import UserApi from '../api/UserApi'
 import Header from '../component/Header'
 import RoomCard from '../component/RoomCard'
@@ -12,13 +13,18 @@ import PageWrapper from '../presenter/wrapper/PageWrapper'
 const MainPage = () => {
   const history = useHistory()
   const [user, setUser] = useState()
-  const [rooms, setRooms] = useState()
+  const [rooms, setRooms] = useState([])
 
   useEffect(() => {
     if (localStorage.getItem(ACCESS_TOKEN)) {
-      UserApi.getUserProfile().then(res => {
-        setUser(res)
-      })
+      UserApi.getUserProfile()
+        .then(res => {
+          setUser(res)
+          return RoomApi.fetchRooms(res.id)
+        })
+        .then(res => {
+          setRooms(res)
+        })
     }
   }, [])
 
@@ -46,13 +52,15 @@ const MainPage = () => {
 
               <Contents
                 style={
-                  rooms === undefined && {
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }
+                  rooms.length === 0
+                    ? {
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }
+                    : {}
                 }
               >
-                {rooms === undefined ? (
+                {rooms.length === 0 ? (
                   <p>
                     참여중인 룸이 없어요 ㅠㅠ <br /> 룸을 만들러 가볼까요?
                   </p>

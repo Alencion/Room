@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route } from 'react-router-dom'
 import OAuth2RedirectHandler from './component/OAuth2RedirectHandler'
 import CreateRoomPage from './page/CreateRoomPage'
+import RoomPage from './page/RoomPage'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.render(
       <Route exact path="/" component={MainPage} />
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/room" component={CreateRoomPage} />
+      <Route exact path="/room/:userId/:roomId" component={RoomPage} />
       <Route eaact path="/oauth2/redirect" component={OAuth2RedirectHandler} />
     </BrowserRouter>
   </React.StrictMode>,
