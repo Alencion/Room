@@ -46,72 +46,70 @@ const CreateRoomPage = () => {
   }
 
   return (
-    <>
-      <PageWrapper>
-        <CreateRoomWrapper>
-          <PageTitle>새로운 룸 생성하기</PageTitle>
-          <FlexWrapper>
-            <VerticalWrapper>
-              <InputTitle htmlFor="room-owner">소유자</InputTitle>
-              {user && (
-                <PrimaryInput
-                  id="room-owner"
-                  type="text"
-                  value={user.name}
-                  disabled={true}
-                />
-              )}
-            </VerticalWrapper>
-            <VerticalWrapper>
-              <Seperator>/</Seperator>
-            </VerticalWrapper>
-            <VerticalWrapper>
-              <InputTitle htmlFor="room-title">룸 이름</InputTitle>
+    <PageWrapper>
+      <CreateRoomWrapper>
+        <PageTitle>새로운 룸 생성하기</PageTitle>
+        <FlexWrapper>
+          <VerticalWrapper>
+            <InputTitle htmlFor="room-owner">소유자</InputTitle>
+            {user && (
               <PrimaryInput
-                id="room-title"
+                id="room-owner"
                 type="text"
-                value={room.title}
-                onChange={e => setRoom({ ...room, title: e.target.value })}
+                value={user.name}
+                disabled={true}
               />
-            </VerticalWrapper>
-          </FlexWrapper>
-          <InputWrapper>
-            <InputTitle htmlFor="room-description">설명</InputTitle>
+            )}
+          </VerticalWrapper>
+          <VerticalWrapper>
+            <Seperator>/</Seperator>
+          </VerticalWrapper>
+          <VerticalWrapper>
+            <InputTitle htmlFor="room-title">룸 이름</InputTitle>
             <PrimaryInput
-              id="room-description"
+              id="room-title"
               type="text"
-              value={room.description}
-              onChange={e => setRoom({ ...room, description: e.target.value })}
+              value={room.title}
+              onChange={e => setRoom({ ...room, title: e.target.value })}
             />
-          </InputWrapper>
-          <InputWrapper>
-            <Radio>
-              <input
-                type="radio"
-                checked={room.isPublic}
-                onChange={e =>
-                  e.target.checked && setRoom({ ...room, isPublic: true })
-                }
-              />
-              Public
-            </Radio>
-            <Radio>
-              <input
-                type="radio"
-                checked={!room.isPublic}
-                onChange={e =>
-                  e.target.checked && setRoom({ ...room, isPublic: false })
-                }
-              />
-              Private
-            </Radio>
-          </InputWrapper>
-          <PrimaryBtn disabled={createDisabled} onClick={createRoomOnClick}>
-            생성
-          </PrimaryBtn>
-        </CreateRoomWrapper>
-      </PageWrapper>
-    </>
+          </VerticalWrapper>
+        </FlexWrapper>
+        <InputWrapper>
+          <InputTitle htmlFor="room-description">설명</InputTitle>
+          <PrimaryInput
+            id="room-description"
+            type="text"
+            value={room.description}
+            onChange={e => setRoom({ ...room, description: e.target.value })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Radio>
+            <input
+              type="radio"
+              checked={room.isPublic}
+              onChange={e =>
+                e.target.checked && setRoom({ ...room, isPublic: true })
+              }
+            />
+            Public
+          </Radio>
+          <Radio>
+            <input
+              type="radio"
+              checked={!room.isPublic}
+              onChange={e =>
+                e.target.checked && setRoom({ ...room, isPublic: false })
+              }
+            />
+            Private
+          </Radio>
+        </InputWrapper>
+        <PrimaryBtn disabled={createDisabled} onClick={createRoomOnClick}>
+          생성
+        </PrimaryBtn>
+      </CreateRoomWrapper>
+    </PageWrapper>
   )
 }
 

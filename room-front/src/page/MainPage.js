@@ -113,6 +113,9 @@ const ContentTitle = styled.h3`
   margin-left: 20px;
 `
 
-const RoomCardList = styled.ul``
+const RoomCardList = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 export default MainPage
