@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/api/room")
 @Api(value = "room")
 public class RoomController {
 
@@ -26,9 +26,14 @@ public class RoomController {
     }
 
     @PostMapping("/{userId}/new")
-    public void addRoom(@PathVariable Long userId, @RequestParam CreateRoomRequest createRoomRequest) {
+    public Room addRoom(@PathVariable Long userId, @RequestBody CreateRoomRequest createRoomRequest) {
         Objects.requireNonNull(createRoomRequest);
 
-        roomService.createRoom(userId, createRoomRequest);
+        return roomService.createRoom(userId, createRoomRequest);
+    }
+
+    @GetMapping("/{userId}/{roomId}")
+    public Room getRoom(@PathVariable("userId") Long userId, @PathVariable("roomId") Long roomId) {
+        return roomService.getRoom(userId, roomId);
     }
 }
