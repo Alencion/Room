@@ -11,8 +11,9 @@ import styled from 'styled-components'
 import { COLOR } from '../constant/style'
 import Icon from '../presenter/icon/Icon'
 
-const SideNav = ({ user, room }) => {
+const SideNav = ({ user, room, tabIndex, setTabIndex }) => {
   const [showNav, setShowNav] = useState(true)
+
   return (
     <SideNavWrapper showNav={showNav}>
       <ProfileDiv>
@@ -61,10 +62,30 @@ const SideNav = ({ user, room }) => {
       </SettingList>
 
       <SideNavGroupWrapper>
-        <ContentItem>Room Info</ContentItem>
-        <ContentItem>Calender</ContentItem>
-        <ContentItem>Chat</ContentItem>
-        <ContentItem>Wiki</ContentItem>
+        <ContentTabItem
+          isActive={0 === tabIndex}
+          onClick={() => setTabIndex(0)}
+        >
+          Room Info
+        </ContentTabItem>
+        <ContentTabItem
+          isActive={1 === tabIndex}
+          onClick={() => setTabIndex(1)}
+        >
+          Calender
+        </ContentTabItem>
+        <ContentTabItem
+          isActive={2 === tabIndex}
+          onClick={() => setTabIndex(2)}
+        >
+          Chat
+        </ContentTabItem>
+        <ContentTabItem
+          isActive={3 === tabIndex}
+          onClick={() => setTabIndex(3)}
+        >
+          Wiki
+        </ContentTabItem>
       </SideNavGroupWrapper>
     </SideNavWrapper>
   )
@@ -77,6 +98,7 @@ const SideNavWrapper = styled.div`
   display: flex;
   flex-direction: column;
   transition: 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
 
   transform: translateX(${props => (props.showNav ? '0' : '-250px')});
 `
@@ -151,9 +173,10 @@ const RightWrapper = styled.div`
   margin-left: auto;
 `
 
-const ContentItem = styled.div`
+const ContentTabItem = styled.div`
   padding: 10px 20px;
   color: ${COLOR.SIDE_NAV_TEXT};
+  ${props => props.isActive && 'background: rgba(255, 255, 255, 0.08);'}
 
   :hover {
     cursor: pointer;
