@@ -98,7 +98,7 @@ const SideNavWrapper = styled.div`
   display: flex;
   flex-direction: column;
   transition: 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: -2px 0px 5px 0px rgba(0, 0, 0, 0.12) inset;
 
   transform: translateX(${props => (props.showNav ? '0' : '-250px')});
 `
