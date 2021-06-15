@@ -24,8 +24,10 @@ const RoomPage = ({ match }) => {
   return (
     <>
       <FlexWrapper>
-        <SideNav room={room} />
-        <ContentsWrapper>Contents</ContentsWrapper>
+        {user && room && <SideNav user={user} room={room} />}
+        <ContentsWrapper>
+          <RoomHeader></RoomHeader>
+        </ContentsWrapper>
       </FlexWrapper>
     </>
   )
@@ -40,5 +42,7 @@ const ContentsWrapper = styled.div`
   width: calc(100% - 300px);
   height: 100%;
 `
+
+const RoomHeader = styled.div``
 
 export default RoomPage
