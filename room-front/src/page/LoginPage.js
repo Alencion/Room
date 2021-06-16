@@ -13,6 +13,9 @@ const LoginPage = () => {
       <CenterWrapper>
         <div>
           <LoginTitle>Room에 로그인</LoginTitle>
+          <LoginDescription>
+            Github 아이디로만 로그인이 가능합니다.
+          </LoginDescription>
           <a
             method="GET"
             href={
@@ -30,6 +33,7 @@ const LoginPage = () => {
 }
 
 const CenterWrapper = styled.div`
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -40,6 +44,13 @@ const CenterWrapper = styled.div`
 `
 
 const LoginTitle = styled.h2`
+  margin-bottom: 30px;
   text-align: center;
 `
+
+const LoginDescription = styled.p`
+  text-align: center;
+  margin-bottom: 30px;
+`
+
 export default LoginPage

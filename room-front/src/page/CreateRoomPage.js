@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import RoomApi from '../api/RoomApi'
 import UserApi from '../api/UserApi'
 import { ACCESS_TOKEN } from '../constant'
 import { COLOR } from '../constant/style'
@@ -8,6 +10,7 @@ import PrimaryInput from '../presenter/input/PrimaryInput'
 import PageWrapper from '../presenter/wrapper/PageWrapper'
 
 const CreateRoomPage = () => {
+  const history = useHistory()
   const [user, setUser] = useState()
   const [room, setRoom] = useState({
     title: '',
@@ -36,76 +39,77 @@ const CreateRoomPage = () => {
     }
   }
 
+  const createRoomOnClick = () => {
+    RoomApi.createRoom(user.id, room).then(res => {
+      history.replace(`/room/${user.id}/${res.id}`)
+    })
+  }
+
   return (
-    <>
-      <PageWrapper>
-        <CreateRoomWrapper>
-          <PageTitle>새로운 룸 생성하기</PageTitle>
-          <FlexWrapper>
-            <VerticalWrapper>
-              <InputTitle htmlFor="room-owner">소유자</InputTitle>
-              {user && (
-                <PrimaryInput
-                  id="room-owner"
-                  type="text"
-                  value={user.name}
-                  disabled={true}
-                />
-              )}
-            </VerticalWrapper>
-            <VerticalWrapper>
-              <Seperator>/</Seperator>
-            </VerticalWrapper>
-            <VerticalWrapper>
-              <InputTitle htmlFor="room-title">룸 이름</InputTitle>
+    <PageWrapper>
+      <CreateRoomWrapper>
+        <PageTitle>새로운 룸 생성하기</PageTitle>
+        <FlexWrapper>
+          <VerticalWrapper>
+            <InputTitle htmlFor="room-owner">소유자</InputTitle>
+            {user && (
               <PrimaryInput
-                id="room-title"
+                id="room-owner"
                 type="text"
-                value={room.title}
-                onChange={e => setRoom({ ...room, title: e.target.value })}
+                value={user.nickname}
+                disabled={true}
               />
-            </VerticalWrapper>
-          </FlexWrapper>
-          <InputWrapper>
-            <InputTitle htmlFor="room-description">설명</InputTitle>
+            )}
+          </VerticalWrapper>
+          <VerticalWrapper>
+            <Seperator>/</Seperator>
+          </VerticalWrapper>
+          <VerticalWrapper>
+            <InputTitle htmlFor="room-title">룸 이름</InputTitle>
             <PrimaryInput
-              id="room-description"
+              id="room-title"
               type="text"
-              value={room.description}
-              onChange={e => setRoom({ ...room, description: e.target.value })}
+              value={room.title}
+              onChange={e => setRoom({ ...room, title: e.target.value })}
             />
-          </InputWrapper>
-          <InputWrapper>
-            <Radio>
-              <input
-                type="radio"
-                checked={room.isPublic}
-                onChange={e =>
-                  e.target.checked && setRoom({ ...room, isPublic: true })
-                }
-              />
-              Public
-            </Radio>
-            <Radio>
-              <input
-                type="radio"
-                checked={!room.isPublic}
-                onChange={e =>
-                  e.target.checked && setRoom({ ...room, isPublic: false })
-                }
-              />
-              Private
-            </Radio>
-          </InputWrapper>
-          <PrimaryBtn
-            disabled={createDisabled}
-            onClick={() => console.log(room)}
-          >
-            생성
-          </PrimaryBtn>
-        </CreateRoomWrapper>
-      </PageWrapper>
-    </>
+          </VerticalWrapper>
+        </FlexWrapper>
+        <InputWrapper>
+          <InputTitle htmlFor="room-description">설명</InputTitle>
+          <PrimaryInput
+            id="room-description"
+            type="text"
+            value={room.description}
+            onChange={e => setRoom({ ...room, description: e.target.value })}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Radio>
+            <input
+              type="radio"
+              checked={room.isPublic}
+              onChange={e =>
+                e.target.checked && setRoom({ ...room, isPublic: true })
+              }
+            />
+            Public
+          </Radio>
+          <Radio>
+            <input
+              type="radio"
+              checked={!room.isPublic}
+              onChange={e =>
+                e.target.checked && setRoom({ ...room, isPublic: false })
+              }
+            />
+            Private
+          </Radio>
+        </InputWrapper>
+        <PrimaryBtn disabled={createDisabled} onClick={createRoomOnClick}>
+          생성
+        </PrimaryBtn>
+      </CreateRoomWrapper>
+    </PageWrapper>
   )
 }
 

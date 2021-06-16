@@ -1,10 +1,11 @@
 package com.alencion.roomserver.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
+
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -24,8 +25,14 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String nickname;
+
     @Column(nullable = false)
     private String email;
+
+    @Column
+    private String description;
 
     @Column(nullable = false)
     private boolean emailVerified = false;
@@ -38,19 +45,33 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @JsonIgnore
     private Role role;
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private AuthProvider provider;
 
+    @JsonIgnore
     private String providerId;
 
     @Builder
-    public User(Long id, String name, String email, boolean emailVerified, String password, String picture, @NotNull AuthProvider provider, String providerId) {
+    public User(Long id,
+                String name,
+                String nickname,
+                String email,
+                String description,
+                boolean emailVerified,
+                String password,
+                String picture,
+                @NotNull AuthProvider provider,
+                String providerId) {
         this.id = id;
         this.name = name;
+        this.nickname = nickname;
         this.email = email;
+        this.description = description;
         this.emailVerified = emailVerified;
         this.password = password;
         this.picture = picture;

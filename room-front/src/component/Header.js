@@ -47,7 +47,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   height: 80px;
 
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.18);
 `
 
 const Logo = styled.div`
