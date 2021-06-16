@@ -1,13 +1,12 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import RoomApi from '../api/RoomApi'
 import UserApi from '../api/UserApi'
+import RoomInfo from '../component/RoomPage/RoomInfo'
 import SideNav from '../component/SideNav'
 import { ACCESS_TOKEN } from '../constant'
 import { COLOR } from '../constant/style'
-import Icon from '../presenter/icon/Icon'
-import RightWrapper from '../presenter/wrapper/RightWrapper'
+import { roomTab } from '../model/Room'
 
 const RoomPage = ({ match }) => {
   const [user, setUser] = useState()
@@ -29,7 +28,7 @@ const RoomPage = ({ match }) => {
   }, [])
 
   const contents = {
-    0: <div>RoomInfo</div>,
+    0: <RoomInfo room={room} />,
     1: <div>Calender</div>,
     2: <div>Chat</div>,
     3: <div>Wiki</div>,
@@ -50,18 +49,9 @@ const RoomPage = ({ match }) => {
         )}
         <ContentsWrapper showNav={showNav}>
           <BorderWrapper>
-            {room && (
-              <ContentsCenterWrapper>
-                <RoomHeader>
-                  <RoomTitle>{room.title}</RoomTitle>
-                  {tabIndex === 0 && (
-                    <RightWrapper>
-                      <Icon icon={faEdit} color={COLOR.GREY} size={'1.5rem'} />
-                    </RightWrapper>
-                  )}
-                </RoomHeader>
-              </ContentsCenterWrapper>
-            )}
+            <RoomHeader>
+              <RoomTitle>{roomTab[tabIndex]}</RoomTitle>
+            </RoomHeader>
           </BorderWrapper>
           <ContentsCenterWrapper>{contents[tabIndex]}</ContentsCenterWrapper>
         </ContentsWrapper>
@@ -85,22 +75,39 @@ const ContentsWrapper = styled.div`
 const BorderWrapper = styled.div`
   display: flex;
   align-items: center;
-  height: 80px;
+  height: 40px;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 18%);
 `
 
 const RoomHeader = styled.div`
   display: flex;
   align-items: center;
+
+  & i {
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+
+    :hover {
+      background: ${COLOR.LIGHT_GREY};
+      cursor: pointer;
+
+      & > svg {
+        color: ${COLOR.LIGHT_BLUE};
+      }
+    }
+  }
 `
 
 const RoomTitle = styled.div`
-  font-size: 2.3rem;
+  margin-left: 50px;
+  font-size: 1rem;
 `
 
 const ContentsCenterWrapper = styled.div`
   margin: 0 auto;
-  width: 1200px;
+  width: 900px;
 `
 
 export default RoomPage

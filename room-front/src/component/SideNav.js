@@ -9,6 +9,7 @@ import {
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { COLOR } from '../constant/style'
+import { roomTab } from '../model/Room'
 import Icon from '../presenter/icon/Icon'
 
 const SideNav = ({
@@ -67,30 +68,14 @@ const SideNav = ({
       </SettingList>
 
       <SideNavGroupWrapper>
-        <ContentTabItem
-          isActive={0 === tabIndex}
-          onClick={() => setTabIndex(0)}
-        >
-          Room Info
-        </ContentTabItem>
-        <ContentTabItem
-          isActive={1 === tabIndex}
-          onClick={() => setTabIndex(1)}
-        >
-          Calender
-        </ContentTabItem>
-        <ContentTabItem
-          isActive={2 === tabIndex}
-          onClick={() => setTabIndex(2)}
-        >
-          Chat
-        </ContentTabItem>
-        <ContentTabItem
-          isActive={3 === tabIndex}
-          onClick={() => setTabIndex(3)}
-        >
-          Wiki
-        </ContentTabItem>
+        {roomTab.map((tab, index) => (
+          <ContentTabItem
+            isActive={index === tabIndex}
+            onClick={() => setTabIndex(index)}
+          >
+            {tab}
+          </ContentTabItem>
+        ))}
       </SideNavGroupWrapper>
     </SideNavWrapper>
   )

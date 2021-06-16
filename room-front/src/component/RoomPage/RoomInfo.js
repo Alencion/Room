@@ -1,0 +1,62 @@
+import React from 'react'
+import styled from 'styled-components'
+import MemberCard from './MemberCard'
+
+const RoomInfo = ({ room }) => {
+  return (
+    <>
+      {room && (
+        <>
+          <RoomInfoWrapper>
+            <Title>{room.title}</Title>
+            <Description>{room.description}</Description>
+          </RoomInfoWrapper>
+          {/* {info && } */}
+          <MemberInfoWrapper>
+            <SubTitle>구성원 소개</SubTitle>
+            <SlideWrapper>
+              {room.participants.map((member, index) => (
+                <MemberCard key={index} member={member} />
+              ))}
+            </SlideWrapper>
+          </MemberInfoWrapper>
+        </>
+      )}
+    </>
+  )
+}
+
+const RoomInfoWrapper = styled.div`
+  display: flex;
+  margin-top: 80px;
+  flex-direction: column;
+`
+
+const Title = styled.div`
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+`
+
+const Description = styled.p`
+  font-size: 1.5rem;
+`
+
+const MemberInfoWrapper = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+`
+
+const SubTitle = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+`
+
+const SlideWrapper = styled.div`
+  display: flex;
+  justify-content: start;
+`
+
+export default RoomInfo
