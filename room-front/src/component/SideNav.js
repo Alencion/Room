@@ -24,7 +24,7 @@ const SideNav = ({
     <SideNavWrapper showNav={showNav}>
       <ProfileDiv>
         <img src={user.picture} alt={'user profile'} />
-        <span>{user.name}</span>
+        <span>{user.nickname}</span>
         <button onClick={() => setShowNav(!showNav)}>
           <Icon
             icon={showNav ? faChevronRight : faChevronLeft}

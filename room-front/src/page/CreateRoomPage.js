@@ -56,7 +56,7 @@ const CreateRoomPage = () => {
               <PrimaryInput
                 id="room-owner"
                 type="text"
-                value={user.name}
+                value={user.nickname}
                 disabled={true}
               />
             )}

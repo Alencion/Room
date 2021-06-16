@@ -12,7 +12,8 @@ const MemberCard = ({ member }) => {
           <AvatarWarpper>
             <img src={user.picture} alt={'member card avatar'} />
           </AvatarWarpper>
-          <Name>{user.name}</Name>
+          <Name>{user.nickname}</Name>
+          <Description>{user.description}</Description>
         </MemberCardWrapper>
       )}
     </>
@@ -42,6 +43,10 @@ const Name = styled.span`
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 15px;
+`
+
+const Description = styled.p`
+  width: 200px;
 `
 
 export default MemberCard

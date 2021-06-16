@@ -11,7 +11,7 @@ const HeaderProfile = ({ currentUser }) => {
         <>
           <ProfileImg image_path={currentUser.picture} />
           <p>
-            <MypageLink to="/mypage">{currentUser.name}</MypageLink> 님
+            <MypageLink to="/mypage">{currentUser.nickname}</MypageLink> 님
             환영합니다.
           </p>
         </>
