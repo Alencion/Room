@@ -2,11 +2,13 @@ package com.alencion.roomserver.room.service;
 
 import com.alencion.roomserver.exception.domain.RoomNotFoundException;
 import com.alencion.roomserver.exception.domain.UserNotFoundException;
+import com.alencion.roomserver.room.domain.RoomInfo;
 import com.alencion.roomserver.room.domain.RoomRole;
 import com.alencion.roomserver.room.payload.CreateRoomRequest;
 import com.alencion.roomserver.room.domain.Participant;
 import com.alencion.roomserver.room.domain.Room;
 import com.alencion.roomserver.room.repository.ParticipantRepository;
+import com.alencion.roomserver.room.repository.RoomInfoRepository;
 import com.alencion.roomserver.room.repository.RoomRepository;
 import com.alencion.roomserver.user.domain.User;
 import com.alencion.roomserver.user.repository.UserRepository;
@@ -24,6 +26,7 @@ public class RoomService {
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final RoomInfoRepository roomInfoRepository;
 
     @Transactional(readOnly = true)
     public List<Room> getRooms(Long userId) {
@@ -69,6 +72,12 @@ public class RoomService {
                 .build();
 
         participantRepository.save(participant);
+
+        RoomInfo roomInfo = RoomInfo.builder()
+                .roomId(newRoom.getId())
+                .build();
+
+        roomInfoRepository.save(roomInfo);
 
         return newRoom;
     }

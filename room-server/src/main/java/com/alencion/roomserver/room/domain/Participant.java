@@ -31,10 +31,14 @@ public class Participant {
     @Column(nullable = false)
     private RoomRole role;
 
+    @Column
+    private String introduction;
+
     @Builder
-    public Participant(User user, Room room, RoomRole role) {
+    public Participant(User user, Room room, RoomRole role, String introduction) {
         this.user = user;
         this.room = room;
         this.role = role;
+        this.introduction = introduction;
     }
 }
