@@ -53,7 +53,7 @@ const RoomPage = ({ match }) => {
               <RoomTitle>{roomTab[tabIndex]}</RoomTitle>
             </RoomHeader>
           </BorderWrapper>
-          <ContentsCenterWrapper>{contents[tabIndex]}</ContentsCenterWrapper>
+          {contents[tabIndex]}
         </ContentsWrapper>
       </FlexWrapper>
     </>
@@ -103,11 +103,6 @@ const RoomHeader = styled.div`
 const RoomTitle = styled.div`
   margin-left: 50px;
   font-size: 1rem;
-`
-
-const ContentsCenterWrapper = styled.div`
-  margin: 0 auto;
-  width: 900px;
 `
 
 export default RoomPage

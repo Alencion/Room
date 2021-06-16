@@ -6,7 +6,7 @@ const RoomInfo = ({ room }) => {
   return (
     <>
       {room && (
-        <>
+        <ContentsCenterWrapper>
           <RoomInfoWrapper>
             <Title>{room.title}</Title>
             <Description>{room.description}</Description>
@@ -20,11 +20,16 @@ const RoomInfo = ({ room }) => {
               ))}
             </SlideWrapper>
           </MemberInfoWrapper>
-        </>
+        </ContentsCenterWrapper>
       )}
     </>
   )
 }
+
+const ContentsCenterWrapper = styled.div`
+  margin: 0 auto;
+  width: 900px;
+`
 
 const RoomInfoWrapper = styled.div`
   display: flex;
