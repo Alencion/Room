@@ -31,7 +31,7 @@ const SideNav = ({
         <span>{user.nickname}</span>
         <button onClick={() => setShowNav(!showNav)}>
           <Icon
-            icon={showNav ? faChevronRight : faChevronLeft}
+            icon={showNav ? faChevronLeft : faChevronRight}
             color={COLOR.GREY}
             size={'1.2rem'}
           />
