@@ -50,6 +50,7 @@ const ContentsCenterWrapper = styled.div`
   margin: 0 auto;
   width: 1200px;
   height: calc(100% - 45px);
+  padding: 0 20px;
 `
 
 const ChatWrapper = styled.div`
