@@ -6,8 +6,6 @@ import Chat from '../component/RoomPage/Chat'
 import RoomInfo from '../component/RoomPage/RoomInfo'
 import SideNav from '../component/SideNav'
 import { ACCESS_TOKEN } from '../constant'
-import { COLOR } from '../constant/style'
-import { roomTab } from '../model/Room'
 
 const RoomPage = ({ match }) => {
   const [user, setUser] = useState()
