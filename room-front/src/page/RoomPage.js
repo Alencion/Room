@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import RoomApi from '../api/RoomApi'
 import UserApi from '../api/UserApi'
+import Chat from '../component/RoomPage/Chat'
 import RoomInfo from '../component/RoomPage/RoomInfo'
 import SideNav from '../component/SideNav'
 import { ACCESS_TOKEN } from '../constant'
@@ -21,7 +22,6 @@ const RoomPage = ({ match }) => {
         setUser(res)
       })
       RoomApi.fetchRoom(match.params.userId, match.params.roomId).then(res => {
-        console.log(res)
         setRoom(res)
       })
     }
@@ -29,8 +29,8 @@ const RoomPage = ({ match }) => {
 
   const contents = {
     0: <RoomInfo room={room} />,
-    1: <div>Calender</div>,
-    2: <div>Chat</div>,
+    1: <div>calender</div>,
+    2: <Chat user={user} room={room} />,
     3: <div>Wiki</div>,
   }
 
@@ -48,11 +48,6 @@ const RoomPage = ({ match }) => {
           />
         )}
         <ContentsWrapper showNav={showNav}>
-          <BorderWrapper>
-            <RoomHeader>
-              <RoomTitle>{roomTab[tabIndex]}</RoomTitle>
-            </RoomHeader>
-          </BorderWrapper>
           {contents[tabIndex]}
         </ContentsWrapper>
       </FlexWrapper>
@@ -66,43 +61,11 @@ const FlexWrapper = styled.div`
 `
 
 const ContentsWrapper = styled.div`
+  display: flex;
   transition: 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: ${props => (props.showNav ? 'calc(100% - 250px)' : '100%')};
   margin-left: ${props => (props.showNav ? '250px' : '0')};
   height: 100%;
-`
-
-const BorderWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 40px;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 18%);
-`
-
-const RoomHeader = styled.div`
-  display: flex;
-  align-items: center;
-
-  & i {
-    padding: 5px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-
-    :hover {
-      background: ${COLOR.LIGHT_GREY};
-      cursor: pointer;
-
-      & > svg {
-        color: ${COLOR.LIGHT_BLUE};
-      }
-    }
-  }
-`
-
-const RoomTitle = styled.div`
-  margin-left: 50px;
-  font-size: 1rem;
 `
 
 export default RoomPage

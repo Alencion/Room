@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const RightWrapper = ({ children }) => {
-  return <Right>{children}</Right>
+const RightWrapper = ({ children, onClick }) => {
+  return <Right onClick={onClick}>{children}</Right>
 }
 
 const Right = styled.div`

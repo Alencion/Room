@@ -6,7 +6,7 @@ import {
   faEnvelope,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { COLOR } from '../constant/style'
 import { roomTab } from '../model/Room'
@@ -23,7 +23,11 @@ const SideNav = ({
   return (
     <SideNavWrapper showNav={showNav}>
       <ProfileDiv>
-        <img src={user.picture} alt={'user profile'} />
+        <img
+          src={user.picture + '&s=40'}
+          srcSet={user.picture + '&s=80 2x'}
+          alt={'user profile'}
+        />
         <span>{user.nickname}</span>
         <button onClick={() => setShowNav(!showNav)}>
           <Icon
@@ -70,6 +74,7 @@ const SideNav = ({
       <SideNavGroupWrapper>
         {roomTab.map((tab, index) => (
           <ContentTabItem
+            key={index}
             isActive={index === tabIndex}
             onClick={() => setTabIndex(index)}
           >
