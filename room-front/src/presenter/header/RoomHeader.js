@@ -43,6 +43,7 @@ const Container = styled.div`
 const RoomTitle = styled.div`
   margin-left: 50px;
   font-size: 1rem;
+  font-weight: bold;
 `
 
 export default RoomHeader
