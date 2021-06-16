@@ -11,9 +11,14 @@ import styled from 'styled-components'
 import { COLOR } from '../constant/style'
 import Icon from '../presenter/icon/Icon'
 
-const SideNav = ({ user, room, tabIndex, setTabIndex }) => {
-  const [showNav, setShowNav] = useState(true)
-
+const SideNav = ({
+  user,
+  room,
+  showNav,
+  setShowNav,
+  tabIndex,
+  setTabIndex,
+}) => {
   return (
     <SideNavWrapper showNav={showNav}>
       <ProfileDiv>
@@ -92,6 +97,7 @@ const SideNav = ({ user, room, tabIndex, setTabIndex }) => {
 }
 
 const SideNavWrapper = styled.div`
+  position: fixed;
   background: ${COLOR.SIDE_NAV_BACKGROUND};
   width: 250px;
   height: 100%;
