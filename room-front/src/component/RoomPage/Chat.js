@@ -7,7 +7,7 @@ import PageWrapper from '../../presenter/wrapper/PageWrapper'
 import ChatThread from './ChatThread'
 
 const Chat = ({ user, room }) => {
-  const [showAddOn, setShowAddOn] = useState(true)
+  const [showThread, setShowThread] = useState(false)
   const [message, setMessage] = useState('')
   const [contents, setContents] = useState([])
 
@@ -66,7 +66,7 @@ const Chat = ({ user, room }) => {
               </ChatWrapper>
             </ContentsCenterWrapper>
           </PageWrapper>
-          {showAddOn && <ChatThread setShowAddOn={setShowAddOn} />}
+          {showThread && <ChatThread setShowThread={setShowThread} />}
         </>
       )}
     </>
@@ -75,7 +75,8 @@ const Chat = ({ user, room }) => {
 
 const ContentsCenterWrapper = styled.div`
   margin: 0 auto;
-  width: 1200px;
+  min-width: 600px;
+  max-width: 1200px;
   height: calc(100% - 45px);
   padding: 0 20px;
 `
@@ -90,6 +91,9 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  margin-bottom: 10px;
+  justify-content: flex-end;
 `
 
 const ChatInputBox = styled.div`

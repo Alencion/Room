@@ -5,12 +5,12 @@ import { COLOR } from '../../constant/style'
 import Icon from '../../presenter/icon/Icon'
 import RightWrapper from '../../presenter/wrapper/RightWrapper'
 
-const ChatThread = ({ setShowAddOn }) => {
+const ChatThread = ({ setShowThread }) => {
   return (
     <ChatThreadWrapper>
       <ChatThreadHeader>
         Thread
-        <RightWrapper onClick={() => setShowAddOn(false)}>
+        <RightWrapper onClick={() => setShowThread(false)}>
           <Icon icon={faTimes} color={COLOR.GREY} />
         </RightWrapper>
       </ChatThreadHeader>
@@ -19,7 +19,7 @@ const ChatThread = ({ setShowAddOn }) => {
 }
 
 const ChatThreadWrapper = styled.div`
-  width: 600px;
+  width: 500px;
   border-left: 1px solid ${COLOR.SEPERATOR_COLOR};
 `
 
@@ -29,6 +29,7 @@ const ChatThreadHeader = styled.div`
   padding-left: 12px;
   padding-right: 12px;
   height: 47px;
+  width: 499px;
   border-bottom: 1px solid ${COLOR.SEPERATOR_COLOR};
 
   & i {
