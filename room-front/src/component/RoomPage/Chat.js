@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { COLOR } from '../../constant/style'
+import useSocket from '../../hooks/useSocket'
 import RoomHeader from '../../presenter/header/RoomHeader'
 import PageWrapper from '../../presenter/wrapper/PageWrapper'
 import ChatThread from './ChatThread'
 
 const Chat = ({ user, room }) => {
   const [showAddOn, setShowAddOn] = useState(true)
+  const [message, setMessage] = useState('')
+  const [contents, setContents] = useState([])
+
+  const [, handleEnter] = useSocket(setContents)
+
   const setChatInputHeight = target => {
     const lineSeperateCount = (target.value.match(/\n/g) || []).length
 
@@ -14,6 +20,13 @@ const Chat = ({ user, room }) => {
       target.style.height = 44 + (lineSeperateCount - 1) * 22 + 'px'
     } else {
       target.style.height = 0
+    }
+  }
+
+  const onEnterDown = e => {
+    if (e.key === 'Enter' && message !== '') {
+      handleEnter(user.id, message)
+      setMessage('')
     }
   }
 
@@ -25,14 +38,28 @@ const Chat = ({ user, room }) => {
             <RoomHeader title={'Chat'} />
             <ContentsCenterWrapper>
               <ChatWrapper>
-                <ChatContainer></ChatContainer>
+                <ChatContainer>
+                  {contents.map((chat, index) => (
+                    <div key={index}>
+                      <span>{chat.username}</span>
+                      <span>{chat.content}</span>
+                    </div>
+                  ))}
+                </ChatContainer>
                 {user && (
                   <ChatInputBox>
                     <img src={user.picture + '&s=70'} alt={'user profile'} />
                     <ChatInput
                       type="text"
                       placeholder="Click here to type a chat message."
-                      onChange={e => setChatInputHeight(e.target)}
+                      value={message}
+                      onChange={e => {
+                        if (e.target.value !== '\n') {
+                          setMessage(e.target.value)
+                        }
+                        setChatInputHeight(e.target)
+                      }}
+                      onKeyDown={e => onEnterDown(e)}
                     />
                   </ChatInputBox>
                 )}

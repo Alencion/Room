@@ -23,7 +23,7 @@ const RoomPage = ({ match }) => {
         setRoom(res)
       })
     }
-  }, [])
+  }, [match.params.roomId, match.params.userId])
 
   const contents = {
     0: <RoomInfo room={room} />,
