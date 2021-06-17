@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import ChatAPi from '../../api/ChatAPi'
 import { COLOR } from '../../constant/style'
 import useSocket from '../../hooks/useSocket'
+import ChatPresenter from '../../presenter/chat/Chat'
 import RoomHeader from '../../presenter/header/RoomHeader'
 import PageWrapper from '../../presenter/wrapper/PageWrapper'
 import ChatThread from './ChatThread'
@@ -11,7 +13,13 @@ const Chat = ({ user, room }) => {
   const [message, setMessage] = useState('')
   const [contents, setContents] = useState([])
 
-  const [, handleEnter] = useSocket(setContents)
+  const [, sendChatMessage] = useSocket(setContents)
+
+  useEffect(() => {
+    ChatAPi.fetchChats(room.id).then(res => {
+      setContents(res)
+    })
+  }, [room.id])
 
   const setChatInputHeight = target => {
     const lineSeperateCount = (target.value.match(/\n/g) || []).length
@@ -25,7 +33,7 @@ const Chat = ({ user, room }) => {
 
   const onEnterDown = e => {
     if (e.key === 'Enter' && message !== '') {
-      handleEnter(user.id, message)
+      sendChatMessage(user.id, message)
       setMessage('')
     }
   }
@@ -39,11 +47,8 @@ const Chat = ({ user, room }) => {
             <ContentsCenterWrapper>
               <ChatWrapper>
                 <ChatContainer>
-                  {contents.map((chat, index) => (
-                    <div key={index}>
-                      <span>{chat.username}</span>
-                      <span>{chat.content}</span>
-                    </div>
+                  {contents.map((message, index) => (
+                    <ChatPresenter key={index} message={message} />
                   ))}
                 </ChatContainer>
                 {user && (

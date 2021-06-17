@@ -17,9 +17,9 @@ const stompConnect = (stompSuccessCallback, stompFailureCallback) => {
 const useSocket = setContents => {
   const { roomId } = useParams()
 
-  const handleEnter = (username, content) => {
-    const newMessage = { username, content, date: new Date() }
-    stompClient.send('/hello', {}, JSON.stringify(newMessage))
+  const sendChatMessage = (userId, content) => {
+    const newMessage = { userId, roomId, content }
+    stompClient.send('/chat', {}, JSON.stringify(newMessage))
   }
 
   const addMessage = message => {
@@ -29,7 +29,7 @@ const useSocket = setContents => {
   useEffect(() => {
     stompConnect(
       () => {
-        stompClient.subscribe('/topic/roomId', data => {
+        stompClient.subscribe('/topic/chat/room/' + roomId, data => {
           const newMessage = JSON.parse(data.body)
           addMessage(newMessage)
         })
@@ -48,7 +48,7 @@ const useSocket = setContents => {
     }
   }, [roomId])
 
-  return [stompClient, handleEnter]
+  return [stompClient, sendChatMessage]
 }
 
 export default useSocket
