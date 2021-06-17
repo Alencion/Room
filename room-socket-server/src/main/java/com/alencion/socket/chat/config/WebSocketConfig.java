@@ -1,4 +1,4 @@
-package com.alenction.socket.websocket.config;
+package com.alencion.socket.chat.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic","/queue");
+        registry.enableSimpleBroker("/topic");
         registry.setApplicationDestinationPrefixes("/");
     }
 

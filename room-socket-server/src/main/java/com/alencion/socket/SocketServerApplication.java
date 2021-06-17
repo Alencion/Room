@@ -1,4 +1,4 @@
-package com.alenction.socket;
+package com.alencion.socket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,34 +1,32 @@
-package com.alenction.socket.message.domain;
+package com.alencion.socket.chat.domain;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
 public class Message {
 
-    private String username;
+    private Long userId;
+    private Long roomId;
     private String content;
-    private Date date;
 
     @Builder
-    public Message(String username, String content, Date date) {
-        this.username = username;
+    public Message(Long userId, Long roomId, String content) {
+        this.userId = userId;
+        this.roomId = roomId;
         this.content = content;
-        this.date = date;
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "username='" + username + '\'' +
+                "userId=" + userId +
+                ", roomId=" + roomId +
                 ", content='" + content + '\'' +
-                ", date=" + date +
                 '}';
     }
 }

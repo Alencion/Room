@@ -48,3 +48,6 @@ package-lock.json
 /room-server/application.properties
 /room-server/src/main/resources/static
 /room-server/src/main/resources/application-dev.properties
+
+### room socket-server ###
+/room-socket-server/src/main/resources/application-dev.properties
