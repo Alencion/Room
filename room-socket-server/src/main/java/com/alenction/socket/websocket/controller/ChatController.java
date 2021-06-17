@@ -1,17 +1,21 @@
 package com.alenction.socket.websocket.controller;
 
+import com.alenction.socket.message.domain.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class GreetingController {
+@RestController
+public class ChatController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        Thread.sleep(100); // delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+    @SendTo("/topic/roomId")
+    public Message broadCast(Message message) {
+        logger.info("receive message : {}", message.toString());
+        return message;
     }
 }
