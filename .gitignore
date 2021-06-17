@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+**/.DS_Store
 
 ### STS ###
 .apt_generated
@@ -44,10 +45,13 @@ package-lock.json
 /room-front/.env.*
 /room-front/build
 
-### room server ###
-/room-server/application.properties
-/room-server/src/main/resources/static
-/room-server/src/main/resources/application-dev.properties
+### room api server ###
+/room-api-server/application.properties
+/room-api-server/src/main/resources/static
+/room-api-server/src/main/resources/application-api-dev.properties
 
-### room socket-server ###
-/room-socket-server/src/main/resources/application-dev.properties
+### room socket server ###
+/room-socket-server/src/main/resources/application-socket-dev.properties
+
+### room common server ###
+/room-common-server/src/main/resources/application-common-dev.properties

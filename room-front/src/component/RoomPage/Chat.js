@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ChatAPi from '../../api/ChatAPi'
 import { COLOR } from '../../constant/style'
@@ -12,6 +12,7 @@ const Chat = ({ user, room }) => {
   const [showThread, setShowThread] = useState(false)
   const [message, setMessage] = useState('')
   const [contents, setContents] = useState([])
+  const wrapperRef = useRef()
 
   const [, sendChatMessage] = useSocket(setContents)
 
@@ -46,7 +47,7 @@ const Chat = ({ user, room }) => {
             <RoomHeader title={'Chat'} />
             <ContentsCenterWrapper>
               <ChatWrapper>
-                <ChatContainer>
+                <ChatContainer ref={wrapperRef}>
                   {contents.map((message, index) => (
                     <ChatPresenter key={index} message={message} />
                   ))}
@@ -94,11 +95,13 @@ const ChatWrapper = styled.div`
 
 const ChatContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   height: 100%;
+  overflow-y: scroll;
 
   margin-bottom: 10px;
-  justify-content: flex-end;
+  align-items: flex-end;
+  align-content: end;
 `
 
 const ChatInputBox = styled.div`

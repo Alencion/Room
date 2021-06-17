@@ -1,0 +1,11 @@
+package com.alencion.common.chat.repository;
+
+import com.alencion.common.chat.domain.Chat;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ChatRepository extends JpaRepository<Chat, Long> {
+
+    List<Chat> findAllByRoomId(long roomId);
+}
