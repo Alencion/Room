@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 import { SOCKET_BASE_URL } from '../constant'
@@ -14,12 +13,9 @@ const stompConnect = (stompSuccessCallback, stompFailureCallback) => {
   stompClient.connect({}, stompSuccessCallback, stompFailureCallback)
 }
 
-const useSocket = (setContents, subscribeUrl) => {
-  const { roomId } = useParams()
-
-  const sendChatMessage = (userId, content) => {
-    const newMessage = { userId, roomId, content }
-    stompClient.send('/chat', {}, JSON.stringify(newMessage))
+const useSocket = (setContents, sendUrl, subscribeUrl) => {
+  const sendChatMessage = message => {
+    stompClient.send(sendUrl, {}, JSON.stringify(message))
   }
 
   useEffect(() => {

@@ -3,22 +3,33 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ChatAPi from '../../api/ChatAPi'
 import { COLOR } from '../../constant/style'
+import useSocket from '../../hooks/useSocket'
+import ThreadChatPresenter from '../../presenter/chat/ThreadChatPresenter'
 import Icon from '../../presenter/icon/Icon'
 import RightWrapper from '../../presenter/wrapper/RightWrapper'
 
-const ChatThread = ({ setShowThread, selectChatId }) => {
-  const [, setContents] = useState([])
+const ChatThread = ({ setShowThread, chat }) => {
+  const [contents, setContents] = useState([])
   const [message, setMessage] = useState('')
+  const [, sendChatMessage] = useSocket(
+    setContents,
+    '/thread',
+    '/topic/chat/thread/' + chat.id,
+  )
 
   useEffect(() => {
-    ChatAPi.fetchThread(selectChatId).then(res => {
+    ChatAPi.fetchThread(chat.id).then(res => {
       setContents(res)
     })
-  }, [selectChatId])
+  }, [chat.id])
 
   const onEnterDown = e => {
     if (e.key === 'Enter' && message !== '') {
-      // sendChatMessage(user.id, message)
+      sendChatMessage({
+        userId: chat.sender.id,
+        chatId: chat.id,
+        content: message,
+      })
       setMessage('')
     }
   }
@@ -32,7 +43,11 @@ const ChatThread = ({ setShowThread, selectChatId }) => {
         </RightWrapper>
       </ChatThreadHeader>
       <ChatThreadContents>
-        <ThreadContainer></ThreadContainer>
+        <ThreadContainer>
+          {contents.map((threadChat, index) => (
+            <ThreadChatPresenter key={index} message={threadChat} />
+          ))}
+        </ThreadContainer>
         <ThreadInputBox>
           <ChatInput
             type="text"

@@ -10,13 +10,14 @@ import ChatThread from './ChatThread'
 
 const Chat = ({ user, room }) => {
   const [showThread, setShowThread] = useState(false)
-  const [selectChatId, setSelectChatId] = useState()
+  const [selectChat, setSelectChat] = useState()
   const [message, setMessage] = useState('')
   const [contents, setContents] = useState([])
   const wrapperRef = useRef()
 
   const [, sendChatMessage] = useSocket(
     setContents,
+    '/chat',
     '/topic/chat/room/' + room.id,
   )
 
@@ -37,14 +38,14 @@ const Chat = ({ user, room }) => {
 
   const onEnterDown = e => {
     if (e.key === 'Enter' && message !== '') {
-      sendChatMessage(user.id, message)
+      sendChatMessage({ userId: user.id, roomId: room.id, content: message })
       setMessage('')
     }
   }
 
   const openThread = message => {
     setShowThread(true)
-    setSelectChatId(message.id)
+    setSelectChat(message)
   }
 
   return (
@@ -85,10 +86,7 @@ const Chat = ({ user, room }) => {
             </ContentsCenterWrapper>
           </PageWrapper>
           {showThread && (
-            <ChatThread
-              setShowThread={setShowThread}
-              selectChatId={selectChatId}
-            />
+            <ChatThread setShowThread={setShowThread} chat={selectChat} />
           )}
         </>
       )}
