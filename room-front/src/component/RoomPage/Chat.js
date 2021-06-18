@@ -60,6 +60,7 @@ const Chat = ({ user, room }) => {
                   {contents.map((message, index) => (
                     <ChatPresenter
                       key={index}
+                      prevMessage={contents[index - 1]}
                       message={message}
                       openThread={openThread}
                     />

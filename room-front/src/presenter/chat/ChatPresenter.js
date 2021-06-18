@@ -6,32 +6,60 @@ import { COLOR } from '../../constant/style'
 import Icon from '../icon/Icon'
 import 'moment/locale/ko'
 
-const ChatPresenter = ({ message, openThread }) => {
+const ChatPresenter = ({ message, prevMessage, openThread }) => {
   const time = () => {
     moment.locale('ko')
     return moment(message.createdAt).format('LT')
   }
 
   return (
-    <ChatWrapper>
-      <AvartarWrapper>
-        <img src={message.sender.picture + '&s=70'} alt={'user profile'} />
-      </AvartarWrapper>
-      <MessageWrapper>
-        <UserName>
-          <b>{message.sender.nickname}</b>
-          <span>{time()}</span>
-        </UserName>
-        <Message>{message.content}</Message>
-      </MessageWrapper>
-      <PopChatToolKit className="pop">
-        <button onClick={() => openThread(message)}>
-          <Icon icon={faCommentMedical} color={COLOR.GREY} />
-        </button>
-      </PopChatToolKit>
-    </ChatWrapper>
+    <>
+      {prevMessage &&
+        !moment(message.createdAt).isSame(prevMessage.createdAt, 'day') && (
+          <DaySeperator>
+            <BorderWrapper>
+              {moment(message.createdAt).format('YYYY-MM-DD dddd')}
+            </BorderWrapper>
+          </DaySeperator>
+        )}
+      <ChatWrapper>
+        <AvartarWrapper>
+          <img src={message.sender.picture + '&s=70'} alt={'user profile'} />
+        </AvartarWrapper>
+        <MessageWrapper>
+          <UserName>
+            <b>{message.sender.nickname}</b>
+            <span>{time()}</span>
+          </UserName>
+          <Message>{message.content}</Message>
+        </MessageWrapper>
+        <PopChatToolKit className="pop">
+          <button onClick={() => openThread(message)}>
+            <Icon icon={faCommentMedical} color={COLOR.GREY} />
+          </button>
+        </PopChatToolKit>
+      </ChatWrapper>
+    </>
   )
 }
+
+const DaySeperator = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+`
+
+const BorderWrapper = styled.span`
+  position: absolute;
+  top: -12px;
+
+  background: #fff;
+  padding: 3px 10px;
+  border: 1px solid ${COLOR.GREY};
+  border-radius: 12px;
+  font-size: 0.8rem;
+`
 
 const ChatWrapper = styled.div`
   display: flex;
