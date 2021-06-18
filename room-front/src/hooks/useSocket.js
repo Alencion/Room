@@ -14,7 +14,7 @@ const stompConnect = (stompSuccessCallback, stompFailureCallback) => {
   stompClient.connect({}, stompSuccessCallback, stompFailureCallback)
 }
 
-const useSocket = setContents => {
+const useSocket = (setContents, subscribeUrl) => {
   const { roomId } = useParams()
 
   const sendChatMessage = (userId, content) => {
@@ -22,16 +22,12 @@ const useSocket = setContents => {
     stompClient.send('/chat', {}, JSON.stringify(newMessage))
   }
 
-  const addMessage = message => {
-    setContents(prev => [...prev, message])
-  }
-
   useEffect(() => {
     stompConnect(
       () => {
-        stompClient.subscribe('/topic/chat/room/' + roomId, data => {
+        stompClient.subscribe(subscribeUrl, data => {
           const newMessage = JSON.parse(data.body)
-          addMessage(newMessage)
+          setContents(prev => [...prev, newMessage])
         })
       },
       error => {
@@ -46,7 +42,7 @@ const useSocket = setContents => {
         stompClient.disconnect()
       }
     }
-  }, [roomId])
+  }, [setContents, subscribeUrl])
 
   return [stompClient, sendChatMessage]
 }

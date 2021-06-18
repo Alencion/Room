@@ -15,7 +15,10 @@ const Chat = ({ user, room }) => {
   const [contents, setContents] = useState([])
   const wrapperRef = useRef()
 
-  const [, sendChatMessage] = useSocket(setContents)
+  const [, sendChatMessage] = useSocket(
+    setContents,
+    '/topic/chat/room/' + room.id,
+  )
 
   useEffect(() => {
     ChatAPi.fetchChats(room.id).then(res => {
