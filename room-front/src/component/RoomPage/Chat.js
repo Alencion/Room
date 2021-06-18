@@ -10,6 +10,7 @@ import ChatThread from './ChatThread'
 
 const Chat = ({ user, room }) => {
   const [showThread, setShowThread] = useState(false)
+  const [selectChatId, setSelectChatId] = useState()
   const [message, setMessage] = useState('')
   const [contents, setContents] = useState([])
   const wrapperRef = useRef()
@@ -38,6 +39,11 @@ const Chat = ({ user, room }) => {
     }
   }
 
+  const openThread = message => {
+    setShowThread(true)
+    setSelectChatId(message.id)
+  }
+
   return (
     <>
       {room && (
@@ -48,7 +54,11 @@ const Chat = ({ user, room }) => {
               <ChatWrapper>
                 <ChatContainer ref={wrapperRef}>
                   {contents.map((message, index) => (
-                    <ChatPresenter key={index} message={message} />
+                    <ChatPresenter
+                      key={index}
+                      message={message}
+                      openThread={openThread}
+                    />
                   ))}
                 </ChatContainer>
                 {user && (
@@ -71,7 +81,12 @@ const Chat = ({ user, room }) => {
               </ChatWrapper>
             </ContentsCenterWrapper>
           </PageWrapper>
-          {showThread && <ChatThread setShowThread={setShowThread} />}
+          {showThread && (
+            <ChatThread
+              setShowThread={setShowThread}
+              selectChatId={selectChatId}
+            />
+          )}
         </>
       )}
     </>

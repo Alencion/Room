@@ -1,32 +1,15 @@
+import { faCommentMedical } from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { COLOR } from '../../constant/style'
+import Icon from '../icon/Icon'
+import 'moment/locale/ko'
 
-const ChatPresenter = ({ message }) => {
-  const timeAgo = () => {
-    console.log(message)
-    const today = new Date()
-    const timeValue = new Date(message.createdAt)
-
-    const betweenTime = Math.floor(
-      (today.getTime() - timeValue.getTime()) / 1000 / 60,
-    )
-    if (betweenTime < 1) return '방금전'
-    if (betweenTime < 60) {
-      return `${betweenTime}분전`
-    }
-
-    const betweenTimeHour = Math.floor(betweenTime / 60)
-    if (betweenTimeHour < 24) {
-      return `${betweenTimeHour}시간전`
-    }
-
-    const betweenTimeDay = Math.floor(betweenTime / 60 / 24)
-    if (betweenTimeDay < 365) {
-      return `${betweenTimeDay}일전`
-    }
-
-    return `${Math.floor(betweenTimeDay / 365)}년전`
+const ChatPresenter = ({ message, openThread }) => {
+  const time = () => {
+    moment.locale('ko')
+    return moment(message.createdAt).format('LT')
   }
 
   return (
@@ -37,10 +20,15 @@ const ChatPresenter = ({ message }) => {
       <MessageWrapper>
         <UserName>
           <b>{message.sender.nickname}</b>
-          <span>{timeAgo()}</span>
+          <span>{time()}</span>
         </UserName>
         <Message>{message.content}</Message>
       </MessageWrapper>
+      <PopChatToolKit className="pop">
+        <button onClick={() => openThread(message)}>
+          <Icon icon={faCommentMedical} color={COLOR.GREY} />
+        </button>
+      </PopChatToolKit>
     </ChatWrapper>
   )
 }
@@ -49,7 +37,7 @@ const ChatWrapper = styled.div`
   display: flex;
   width: 100%;
   min-height: 40px;
-  padding: 10px 0;
+  padding: 10px 0 20px;
   border-top: 1px solid ${COLOR.SEPERATOR_COLOR};
   position: relative;
 
@@ -59,6 +47,10 @@ const ChatWrapper = styled.div`
 
   & > * {
     font-size: 1rem;
+  }
+
+  :hover > .pop {
+    display: flex;
   }
 `
 
@@ -89,5 +81,43 @@ const UserName = styled.p`
 `
 
 const Message = styled.div``
+
+const PopChatToolKit = styled.div`
+  position: absolute;
+  top: -15px;
+  right: 50px;
+  display: none;
+
+  width: 70px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid ${COLOR.GREY};
+  border-radius: 15px;
+
+  align-items: center;
+  justify-content: center;
+
+  & > button {
+    background: #fff;
+    border: none;
+    padding: 3px;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+
+    :hover {
+      cursor: pointer;
+
+      background: ${COLOR.SEPERATOR_COLOR};
+
+      & svg {
+        color: ${COLOR.LIGHT_BLACK};
+      }
+    }
+
+    & svg {
+      transition: 0.3s ease-in-out;
+    }
+  }
+`
 
 export default ChatPresenter

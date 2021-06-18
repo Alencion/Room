@@ -8,4 +8,10 @@ export default Object.freeze({
       method: 'GET',
     })
   },
+  fetchThread(chatId) {
+    return request({
+      url: API_BASE_URL + `/api/chat/thread/${chatId}`,
+      method: 'GET',
+    })
+  },
 })
