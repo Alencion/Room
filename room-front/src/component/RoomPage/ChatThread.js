@@ -16,11 +16,6 @@ const ChatThread = ({ setShowThread, selectChatId }) => {
     })
   }, [selectChatId])
 
-  const setChatInputHeight = target => {
-    target.style.height = 0
-    target.style.height = target.scrollHeight + 'px'
-  }
-
   const onEnterDown = e => {
     if (e.key === 'Enter' && message !== '') {
       // sendChatMessage(user.id, message)
@@ -47,7 +42,6 @@ const ChatThread = ({ setShowThread, selectChatId }) => {
               if (e.target.value !== '\n') {
                 setMessage(e.target.value)
               }
-              setChatInputHeight(e.target)
             }}
             onKeyDown={e => onEnterDown(e)}
           />
@@ -118,8 +112,8 @@ const ThreadInputBox = styled.div`
 
 const ChatInput = styled.textarea`
   width: 100%;
-  min-height: 44px;
-  max-height: 300px;
+  height: 170px;
+
   border: none;
   resize: none;
   font-size: 1.2em;

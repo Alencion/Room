@@ -38,12 +38,8 @@ const ChatWrapper = styled.div`
   width: 100%;
   min-height: 40px;
   padding: 10px 0 20px;
-  border-top: 1px solid ${COLOR.SEPERATOR_COLOR};
+  border-bottom: 1px solid ${COLOR.SEPERATOR_COLOR};
   position: relative;
-
-  :last-child {
-    border-bottom: 1px solid ${COLOR.SEPERATOR_COLOR};
-  }
 
   & > * {
     font-size: 1rem;
@@ -84,15 +80,16 @@ const Message = styled.div``
 
 const PopChatToolKit = styled.div`
   position: absolute;
-  top: -15px;
-  right: 50px;
+  top: 5px;
+  right: 20px;
   display: none;
 
-  width: 70px;
+  width: 50px;
   height: 30px;
   background: #fff;
   border: 1px solid ${COLOR.GREY};
   border-radius: 15px;
+  box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.08);
 
   align-items: center;
   justify-content: center;
