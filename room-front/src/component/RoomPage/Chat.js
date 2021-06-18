@@ -22,14 +22,13 @@ const Chat = ({ user, room }) => {
     })
   }, [room.id])
 
-  const setChatInputHeight = target => {
-    const lineSeperateCount = (target.value.match(/\n/g) || []).length
+  useEffect(() => {
+    wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
+  }, [contents])
 
-    if (lineSeperateCount > 1) {
-      target.style.height = 44 + (lineSeperateCount - 1) * 22 + 'px'
-    } else {
-      target.style.height = 0
-    }
+  const setChatInputHeight = target => {
+    target.style.height = 0
+    target.style.height = target.scrollHeight + 'px'
   }
 
   const onEnterDown = e => {
@@ -100,6 +99,7 @@ const ChatContainer = styled.div`
   overflow-y: scroll;
 
   margin-bottom: 10px;
+  margin-top: 3px;
   align-items: flex-end;
   align-content: end;
 `
