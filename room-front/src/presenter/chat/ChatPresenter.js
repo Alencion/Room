@@ -30,20 +30,18 @@ const ChatPresenter = ({ message }) => {
   }
 
   return (
-    <>
-      <ChatWrapper>
-        <AvartarWrapper>
-          <img src={message.sender.picture + '&s=70'} alt={'user profile'} />
-        </AvartarWrapper>
-        <MessageWrapper>
-          <UserName>
-            <b>{message.sender.nickname}</b>
-            <span>{timeAgo()}</span>
-          </UserName>
-          <Message>{message.content}</Message>
-        </MessageWrapper>
-      </ChatWrapper>
-    </>
+    <ChatWrapper>
+      <AvartarWrapper>
+        <img src={message.sender.picture + '&s=70'} alt={'user profile'} />
+      </AvartarWrapper>
+      <MessageWrapper>
+        <UserName>
+          <b>{message.sender.nickname}</b>
+          <span>{timeAgo()}</span>
+        </UserName>
+        <Message>{message.content}</Message>
+      </MessageWrapper>
+    </ChatWrapper>
   )
 }
 
