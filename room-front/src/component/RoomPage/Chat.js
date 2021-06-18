@@ -6,7 +6,7 @@ import useSocket from '../../hooks/useSocket'
 import ChatPresenter from '../../presenter/chat/ChatPresenter'
 import RoomHeader from '../../presenter/header/RoomHeader'
 import PageWrapper from '../../presenter/wrapper/PageWrapper'
-import ChatThread from './ChatThread'
+import ChatThread from './ThreadChat'
 
 const Chat = ({ user, room }) => {
   const [showThread, setShowThread] = useState(false)

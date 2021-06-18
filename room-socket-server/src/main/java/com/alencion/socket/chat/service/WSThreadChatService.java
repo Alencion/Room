@@ -1,7 +1,7 @@
 package com.alencion.socket.chat.service;
 
-import com.alencion.common.chat.domain.ChatThread;
-import com.alencion.common.chat.repository.ChatThreadRepository;
+import com.alencion.common.chat.domain.ThreadChat;
+import com.alencion.common.chat.repository.ThreadChatRepository;
 import com.alencion.common.exception.domain.UserNotFoundException;
 import com.alencion.common.user.domain.User;
 import com.alencion.common.user.repository.UserRepository;
@@ -12,18 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class WSChatThreadService {
+public class WSThreadChatService {
 
-    private final ChatThreadRepository threadRepository;
+    private final ThreadChatRepository threadRepository;
     private final UserRepository userRepository;
 
     @Transactional
-    public ChatThread sendChatThread(ThreadMessage message) {
+    public ThreadChat sendChatThread(ThreadMessage message) {
         User sender = userRepository
                 .findById(message.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("Sender not found"));
 
-        ChatThread newChat = ChatThread.builder()
+        ThreadChat newChat = ThreadChat.builder()
                 .sender(sender)
                 .chatId(message.getChatId())
                 .content(message.getContent())

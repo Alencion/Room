@@ -1,11 +1,11 @@
 package com.alencion.socket.chat.controller;
 
 import com.alencion.common.chat.domain.Chat;
-import com.alencion.common.chat.domain.ChatThread;
+import com.alencion.common.chat.domain.ThreadChat;
 import com.alencion.socket.chat.domain.Message;
 import com.alencion.socket.chat.domain.ThreadMessage;
 import com.alencion.socket.chat.service.WSChatService;
-import com.alencion.socket.chat.service.WSChatThreadService;
+import com.alencion.socket.chat.service.WSThreadChatService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class WSChatController {
 
     private final SimpMessageSendingOperations messagingTemplate;
     private final WSChatService chatService;
-    private final WSChatThreadService threadService;
+    private final WSThreadChatService threadService;
 
     @MessageMapping("/chat")
     public void sendChat(Message message) {
@@ -36,8 +36,8 @@ public class WSChatController {
     public void sendThread(ThreadMessage message) {
         logger.info("receive message : {}", message.toString());
 
-        ChatThread newChatThread = threadService.sendChatThread(message);
+        ThreadChat newThreadChat = threadService.sendChatThread(message);
 
-        messagingTemplate.convertAndSend("/topic/chat/thread/" + message.getChatId(), newChatThread);
+        messagingTemplate.convertAndSend("/topic/chat/thread/" + message.getChatId(), newThreadChat);
     }
 }

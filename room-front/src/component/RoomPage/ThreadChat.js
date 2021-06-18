@@ -1,5 +1,5 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ChatAPi from '../../api/ChatAPi'
 import { COLOR } from '../../constant/style'
@@ -11,6 +11,8 @@ import RightWrapper from '../../presenter/wrapper/RightWrapper'
 const ChatThread = ({ setShowThread, chat }) => {
   const [contents, setContents] = useState([])
   const [message, setMessage] = useState('')
+
+  const wrapperRef = useRef()
   const [, sendChatMessage] = useSocket(
     setContents,
     '/thread',
@@ -22,6 +24,10 @@ const ChatThread = ({ setShowThread, chat }) => {
       setContents(res)
     })
   }, [chat.id])
+
+  useEffect(() => {
+    wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
+  }, [contents])
 
   const onEnterDown = e => {
     if (e.key === 'Enter' && message !== '') {
@@ -43,7 +49,7 @@ const ChatThread = ({ setShowThread, chat }) => {
         </RightWrapper>
       </ChatThreadHeader>
       <ChatThreadContents>
-        <ThreadContainer>
+        <ThreadContainer ref={wrapperRef}>
           {contents.map((threadChat, index) => (
             <ThreadChatPresenter key={index} message={threadChat} />
           ))}

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class ChatThread extends AuditBaseEntity {
+public class ThreadChat extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class ChatThread extends AuditBaseEntity {
     private String content;
 
     @Builder
-    public ChatThread(Long id, long chatId, User sender, String content) {
+    public ThreadChat(Long id, long chatId, User sender, String content) {
         this.id = id;
         this.chatId = chatId;
         this.sender = sender;
