@@ -45,6 +45,9 @@ package-lock.json
 /room-front/.env.*
 /room-front/build
 
+### room common ###
+/room-common/src/main/resources/application-common-dev.properties
+
 ### room api server ###
 /room-api-server/application.properties
 /room-api-server/src/main/resources/static
@@ -52,6 +55,3 @@ package-lock.json
 
 ### room socket server ###
 /room-socket-server/src/main/resources/application-socket-dev.properties
-
-### room common server ###
-/room-common-server/src/main/resources/application-common-dev.properties

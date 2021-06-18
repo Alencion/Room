@@ -36,7 +36,7 @@
 
         <dependency>
             <groupId>com.alencion</groupId>
-            <artifactId>room-common-server</artifactId>
+            <artifactId>room-common</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

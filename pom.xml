@@ -17,9 +17,9 @@
     </parent>
 
     <modules>
+        <module>room-common</module>
         <module>room-api-server</module>
         <module>room-socket-server</module>
-        <module>room-common-server</module>
     </modules>
 
     <profiles>
