@@ -5,12 +5,8 @@ import com.alencion.api.chat.service.ThreadChatService;
 import com.alencion.common.chat.domain.Chat;
 import com.alencion.common.chat.domain.ThreadChat;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -21,12 +17,12 @@ public class ChatController {
     private final ThreadChatService threadService;
 
     @GetMapping("/{roomId}")
-    public List<Chat> fetchRoomChats(@PathVariable long roomId) {
-        return chatService.getChats(roomId);
+    public Page<Chat> fetchRoomChats(@PathVariable long roomId, @RequestParam("page") int page) {
+        return chatService.getChats(roomId, page);
     }
 
     @GetMapping("/thread/{chatId}")
-    public List<ThreadChat> fetchThreadChats(@PathVariable long chatId) {
-        return threadService.getThreadChats(chatId);
+    public Page<ThreadChat> fetchThreadChats(@PathVariable long chatId, @RequestParam("page") int page) {
+        return threadService.getThreadChats(chatId, page);
     }
 }
