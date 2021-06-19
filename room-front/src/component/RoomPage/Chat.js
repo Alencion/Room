@@ -56,16 +56,18 @@ const Chat = ({ user, room }) => {
             <RoomHeader title={'Chat'} />
             <ContentsCenterWrapper>
               <ChatWrapper>
-                <ChatContainer ref={wrapperRef}>
-                  {contents.map((message, index) => (
-                    <ChatPresenter
-                      key={index}
-                      prevMessage={contents[index - 1]}
-                      message={message}
-                      openThread={openThread}
-                    />
-                  ))}
-                </ChatContainer>
+                <BottomBox ref={wrapperRef}>
+                  <ChatContainer>
+                    {contents.map((message, index) => (
+                      <ChatPresenter
+                        key={index}
+                        prevMessage={contents[index - 1]}
+                        message={message}
+                        openThread={openThread}
+                      />
+                    ))}
+                  </ChatContainer>
+                </BottomBox>
                 {user && (
                   <ChatInputBox>
                     <img src={user.picture + '&s=70'} alt={'user profile'} />
@@ -109,15 +111,22 @@ const ChatWrapper = styled.div`
   height: 100%;
 `
 
+const BottomBox = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
+  margin-top: 3px;
+  overflow-y: scroll;
+  padding-top: 20px;
+`
+
 const ChatContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 100%;
-  overflow-y: scroll;
 
-  margin-bottom: 10px;
-  margin-top: 3px;
-  align-items: flex-end;
+  width: 100%;
+  margin-top: auto;
   align-content: end;
 `
 

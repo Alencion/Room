@@ -14,14 +14,14 @@ const ChatPresenter = ({ message, prevMessage, openThread }) => {
 
   return (
     <>
-      {prevMessage &&
-        !moment(message.createdAt).isSame(prevMessage.createdAt, 'day') && (
-          <DaySeperator>
-            <BorderWrapper>
-              {moment(message.createdAt).format('YYYY-MM-DD dddd')}
-            </BorderWrapper>
-          </DaySeperator>
-        )}
+      {(!prevMessage ||
+        !moment(message.createdAt).isSame(prevMessage.createdAt, 'day')) && (
+        <DaySeperator>
+          <BorderWrapper>
+            {moment(message.createdAt).format('YYYY-MM-DD dddd')}
+          </BorderWrapper>
+        </DaySeperator>
+      )}
       <ChatWrapper>
         <AvartarWrapper>
           <img src={message.sender.picture + '&s=70'} alt={'user profile'} />
@@ -59,6 +59,7 @@ const BorderWrapper = styled.span`
   border: 1px solid ${COLOR.GREY};
   border-radius: 12px;
   font-size: 0.8rem;
+  z-index: 1;
 `
 
 const ChatWrapper = styled.div`
@@ -66,8 +67,13 @@ const ChatWrapper = styled.div`
   width: 100%;
   min-height: 40px;
   padding: 10px 0 20px;
-  border-bottom: 1px solid ${COLOR.SEPERATOR_COLOR};
+  border-top: 1px solid ${COLOR.SEPERATOR_COLOR};
+
   position: relative;
+
+  :last-child {
+    border-bottom: 1px solid ${COLOR.SEPERATOR_COLOR};
+  }
 
   & > * {
     font-size: 1rem;

@@ -6,14 +6,11 @@ import 'moment/locale/ko'
 
 const ThreadChatPresenter = ({ message }) => {
   const time = () => {
-    return moment(message.createdAt).format('LT')
+    return moment(message.createdAt).format('YYYY-MM-DD LT')
   }
 
   return (
     <ChatWrapper>
-      <AvartarWrapper>
-        <img src={message.sender.picture + '&s=70'} alt={'user profile'} />
-      </AvartarWrapper>
       <MessageWrapper>
         <UserName>
           <b>{message.sender.nickname}</b>
@@ -42,19 +39,8 @@ const ChatWrapper = styled.div`
   }
 `
 
-const AvartarWrapper = styled.div`
-  width: 60px;
-  padding: 0 10px;
-
-  & > img {
-    width: 35px;
-    height: 35px;
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-`
-
 const MessageWrapper = styled.div`
+  padding: 0 10px;
   width: calc(100% - 60px);
 `
 
