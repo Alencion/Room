@@ -23,7 +23,9 @@ const useSocket = (setContents, sendUrl, subscribeUrl) => {
       () => {
         stompClient.subscribe(subscribeUrl, data => {
           const newMessage = JSON.parse(data.body)
-          setContents(prev => [...prev, newMessage])
+          setContents(prev => {
+            return { ...prev, content: [...prev.content, newMessage] }
+          })
         })
       },
       error => {

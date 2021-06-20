@@ -3,24 +3,45 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ChatAPi from '../../api/ChatAPi'
 import { COLOR } from '../../constant/style'
+import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import useSocket from '../../hooks/useSocket'
 import ThreadChatPresenter from '../../presenter/chat/ThreadChatPresenter'
 import Icon from '../../presenter/icon/Icon'
 import RightWrapper from '../../presenter/wrapper/RightWrapper'
 
 const ChatThread = ({ setShowThread, chat }) => {
-  const [contents, setContents] = useState([])
+  const [contents, setContents] = useState({ content: [] })
   const [message, setMessage] = useState('')
+  const page = useRef(1)
 
   const wrapperRef = useRef()
+  const targetRef = useRef()
   const [, sendChatMessage] = useSocket(
     setContents,
     '/thread',
     '/topic/chat/thread/' + chat.id,
   )
 
+  useIntersectionObserver({
+    root: wrapperRef.current,
+    target: targetRef.current,
+    onIntersect: ([{ isIntersecting }]) => {
+      if (isIntersecting && page.current < contents.totalPages) {
+        page.current++
+        ChatAPi.fetchThread(chat.id, page.current).then(res => {
+          res.content = res.content.sort((c1, c2) => c1.id - c2.id)
+          setContents({
+            ...contents,
+            content: [...res.content, ...contents.content],
+          })
+        })
+      }
+    },
+  })
+
   useEffect(() => {
-    ChatAPi.fetchThread(chat.id).then(res => {
+    ChatAPi.fetchThread(chat.id, page.current).then(res => {
+      res.content = res.content.sort((c1, c2) => c1.id - c2.id)
       setContents(res)
     })
   }, [chat.id])
@@ -50,7 +71,8 @@ const ChatThread = ({ setShowThread, chat }) => {
       </ChatThreadHeader>
       <ChatThreadContents>
         <ThreadContainer ref={wrapperRef}>
-          {contents.map((threadChat, index) => (
+          <div ref={targetRef}></div>
+          {contents.content.map((threadChat, index) => (
             <ThreadChatPresenter key={index} message={threadChat} />
           ))}
         </ThreadContainer>

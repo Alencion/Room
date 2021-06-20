@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ChatAPi from '../../api/ChatAPi'
 import { COLOR } from '../../constant/style'
+import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import useSocket from '../../hooks/useSocket'
 import ChatPresenter from '../../presenter/chat/ChatPresenter'
 import RoomHeader from '../../presenter/header/RoomHeader'
@@ -12,8 +13,10 @@ const Chat = ({ user, room }) => {
   const [showThread, setShowThread] = useState(false)
   const [selectChat, setSelectChat] = useState()
   const [message, setMessage] = useState('')
-  const [contents, setContents] = useState([])
+  const [contents, setContents] = useState({ content: [] })
+  const page = useRef(1)
   const wrapperRef = useRef()
+  const targetRef = useRef()
 
   const [, sendChatMessage] = useSocket(
     setContents,
@@ -21,8 +24,26 @@ const Chat = ({ user, room }) => {
     '/topic/chat/room/' + room.id,
   )
 
+  useIntersectionObserver({
+    root: wrapperRef.current,
+    target: targetRef.current,
+    onIntersect: ([{ isIntersecting }]) => {
+      if (isIntersecting && page.current < contents.totalPages) {
+        page.current++
+        ChatAPi.fetchChats(room.id, page.current).then(res => {
+          res.content = res.content.sort((c1, c2) => c1.id - c2.id)
+          setContents({
+            ...contents,
+            content: [...res.content, ...contents.content],
+          })
+        })
+      }
+    },
+  })
+
   useEffect(() => {
-    ChatAPi.fetchChats(room.id).then(res => {
+    ChatAPi.fetchChats(room.id, page.current).then(res => {
+      res.content = res.content.sort((c1, c2) => c1.id - c2.id)
       setContents(res)
     })
   }, [room.id])
@@ -57,11 +78,12 @@ const Chat = ({ user, room }) => {
             <ContentsCenterWrapper>
               <ChatWrapper>
                 <BottomBox ref={wrapperRef}>
+                  <div ref={targetRef}></div>
                   <ChatContainer>
-                    {contents.map((message, index) => (
+                    {contents.content.map((message, index) => (
                       <ChatPresenter
                         key={index}
-                        prevMessage={contents[index - 1]}
+                        prevMessage={contents.content[index - 1]}
                         message={message}
                         openThread={openThread}
                       />
