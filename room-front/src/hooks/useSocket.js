@@ -13,7 +13,13 @@ const stompConnect = (stompSuccessCallback, stompFailureCallback) => {
   stompClient.connect({}, stompSuccessCallback, stompFailureCallback)
 }
 
-const useSocket = (setContents, sendUrl, subscribeUrl, callback) => {
+const useSocket = (
+  sendUrl,
+  subscribeUrl,
+  onMessage,
+  onConnect = undefined,
+  onError = undefined,
+) => {
   const sendChatMessage = message => {
     stompClient.send(sendUrl, {}, JSON.stringify(message))
   }
@@ -23,10 +29,17 @@ const useSocket = (setContents, sendUrl, subscribeUrl, callback) => {
       () => {
         stompClient.subscribe(subscribeUrl, data => {
           const newMessage = JSON.parse(data.body)
-          callback(newMessage)
+          onMessage(newMessage)
         })
+        if (onConnect) {
+          stompClient.send(sendUrl, {}, JSON.stringify(onConnect))
+        }
       },
       error => {
+        if (onError) {
+          onError()
+        }
+
         console.log('STOMP: ' + error)
         setTimeout(stompConnect, 10000)
         console.log('STOMP: Reconecting in 10 seconds')
@@ -38,7 +51,7 @@ const useSocket = (setContents, sendUrl, subscribeUrl, callback) => {
         stompClient.disconnect()
       }
     }
-  }, [setContents, subscribeUrl])
+  }, [subscribeUrl])
 
   return sendChatMessage
 }

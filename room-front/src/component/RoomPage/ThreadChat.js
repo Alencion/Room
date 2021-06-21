@@ -20,7 +20,6 @@ const ChatThread = ({ setShowThread, chat }) => {
   const wrapperRef = useRef()
   const targetRef = useRef()
   const sendChatMessage = useSocket(
-    setContents,
     '/thread',
     '/topic/chat/thread/' + chat.id,
     newMessage => {

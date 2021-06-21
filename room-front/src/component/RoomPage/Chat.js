@@ -22,7 +22,6 @@ const Chat = ({ user, room }) => {
   const targetRef = useRef()
 
   const sendChatMessage = useSocket(
-    setContents,
     '/chat',
     '/topic/chat/room/' + room.id,
     newMessage => {
