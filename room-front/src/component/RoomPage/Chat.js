@@ -6,6 +6,7 @@ import useSocket from '../../hooks/useSocket'
 import ChatInputBox from '../../presenter/chat/ChatInputBox'
 import ChatPresenter from '../../presenter/chat/ChatPresenter'
 import RoomHeader from '../../presenter/header/RoomHeader'
+import Loading from '../../presenter/loading/Loading'
 import PageWrapper from '../../presenter/wrapper/PageWrapper'
 import ChatThread from './ThreadChat'
 
@@ -14,6 +15,8 @@ const Chat = ({ user, room }) => {
   const [selectChat, setSelectChat] = useState()
   const [message, setMessage] = useState('')
   const [contents, setContents] = useState({ content: [] })
+  const [onScrollDown, setOnScrollDown] = useState(true)
+  const [onLoading, setOnLoading] = useState(false)
   const page = useRef(1)
   const wrapperRef = useRef()
   const targetRef = useRef()
@@ -23,6 +26,7 @@ const Chat = ({ user, room }) => {
     '/chat',
     '/topic/chat/room/' + room.id,
     newMessage => {
+      setOnScrollDown(true)
       setContents(prev => {
         return { ...prev, content: [...prev.content, newMessage] }
       })
@@ -35,13 +39,16 @@ const Chat = ({ user, room }) => {
     onIntersect: ([{ isIntersecting }]) => {
       if (isIntersecting && page.current < contents.totalPages) {
         page.current++
-        ChatAPi.fetchChats(room.id, page.current).then(res => {
-          res.content = res.content.sort((c1, c2) => c1.id - c2.id)
-          setContents({
-            ...contents,
-            content: [...res.content, ...contents.content],
+        setOnLoading(true)
+        ChatAPi.fetchChats(room.id, page.current)
+          .then(res => {
+            res.content = res.content.sort((c1, c2) => c1.id - c2.id)
+            setContents({
+              ...contents,
+              content: [...res.content, ...contents.content],
+            })
           })
-        })
+          .then(() => setOnLoading(false))
       }
     },
   })
@@ -54,7 +61,10 @@ const Chat = ({ user, room }) => {
   }, [room.id])
 
   useEffect(() => {
-    wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
+    if (contents.content.length !== 0 && onScrollDown) {
+      wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
+      setOnScrollDown(false)
+    }
   }, [contents])
 
   const openThread = message => {
@@ -67,6 +77,7 @@ const Chat = ({ user, room }) => {
       {room && (
         <>
           <PageWrapper>
+            <Loading onLoading={onLoading} />
             <RoomHeader title={'Chat'} />
             <ContentsCenterWrapper>
               <ChatWrapper>
