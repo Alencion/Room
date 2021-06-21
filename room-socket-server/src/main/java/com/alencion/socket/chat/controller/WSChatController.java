@@ -2,6 +2,7 @@ package com.alencion.socket.chat.controller;
 
 import com.alencion.common.chat.domain.Chat;
 import com.alencion.common.chat.domain.ThreadChat;
+import com.alencion.socket.chat.domain.Event;
 import com.alencion.socket.chat.domain.Message;
 import com.alencion.socket.chat.domain.ThreadMessage;
 import com.alencion.socket.chat.service.WSChatService;
@@ -23,9 +24,14 @@ public class WSChatController {
     private final WSChatService chatService;
     private final WSThreadChatService threadService;
 
+    @MessageMapping("/room")
+    public void roomEvent(Event event) {
+        messagingTemplate.convertAndSend("/topic/room/" + event.getRoomId(), event);
+    }
+
     @MessageMapping("/chat")
     public void sendChat(Message message) {
-        logger.info("receive message : {}", message.toString());
+        logger.info("receive message : {}", message);
 
         Chat newChat = chatService.sendChat(message);
 
@@ -34,7 +40,7 @@ public class WSChatController {
 
     @MessageMapping("/thread")
     public void sendThread(ThreadMessage message) {
-        logger.info("receive message : {}", message.toString());
+        logger.info("receive message : {}", message);
 
         ThreadChat newThreadChat = threadService.sendChatThread(message);
 
