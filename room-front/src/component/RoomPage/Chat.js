@@ -1,20 +1,75 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { COLOR } from '../../constant/style'
+import ChatAPi from '../../api/ChatAPi'
+import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
+import useSocket from '../../hooks/useSocket'
+import ChatInputBox from '../../presenter/chat/ChatInputBox'
+import ChatPresenter from '../../presenter/chat/ChatPresenter'
 import RoomHeader from '../../presenter/header/RoomHeader'
+import Loading from '../../presenter/loading/Loading'
 import PageWrapper from '../../presenter/wrapper/PageWrapper'
-import ChatThread from './ChatThread'
+import ChatThread from './ThreadChat'
 
 const Chat = ({ user, room }) => {
-  const [showAddOn, setShowAddOn] = useState(true)
-  const setChatInputHeight = target => {
-    const lineSeperateCount = (target.value.match(/\n/g) || []).length
+  const [showThread, setShowThread] = useState(false)
+  const [selectChat, setSelectChat] = useState()
+  const [message, setMessage] = useState('')
+  const [contents, setContents] = useState({ content: [] })
+  const [onScrollDown, setOnScrollDown] = useState(true)
+  const [onLoading, setOnLoading] = useState(false)
+  const page = useRef(1)
+  const wrapperRef = useRef()
+  const targetRef = useRef()
 
-    if (lineSeperateCount > 1) {
-      target.style.height = 44 + (lineSeperateCount - 1) * 22 + 'px'
-    } else {
-      target.style.height = 0
+  const sendChatMessage = useSocket(
+    setContents,
+    '/chat',
+    '/topic/chat/room/' + room.id,
+    newMessage => {
+      setOnScrollDown(true)
+      setContents(prev => {
+        return { ...prev, content: [...prev.content, newMessage] }
+      })
+    },
+  )
+
+  useIntersectionObserver({
+    root: wrapperRef.current,
+    target: targetRef.current,
+    onIntersect: ([{ isIntersecting }]) => {
+      if (isIntersecting && page.current < contents.totalPages) {
+        page.current++
+        setOnLoading(true)
+        ChatAPi.fetchChats(room.id, page.current)
+          .then(res => {
+            res.content = res.content.sort((c1, c2) => c1.id - c2.id)
+            setContents({
+              ...contents,
+              content: [...res.content, ...contents.content],
+            })
+          })
+          .then(() => setOnLoading(false))
+      }
+    },
+  })
+
+  useEffect(() => {
+    ChatAPi.fetchChats(room.id, page.current).then(res => {
+      res.content = res.content.sort((c1, c2) => c1.id - c2.id)
+      setContents(res)
+    })
+  }, [room.id])
+
+  useEffect(() => {
+    if (contents.content.length !== 0 && onScrollDown) {
+      wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
+      setOnScrollDown(false)
     }
+  }, [contents])
+
+  const openThread = message => {
+    setShowThread(true)
+    setSelectChat(message)
   }
 
   return (
@@ -22,24 +77,36 @@ const Chat = ({ user, room }) => {
       {room && (
         <>
           <PageWrapper>
+            <Loading onLoading={onLoading} />
             <RoomHeader title={'Chat'} />
             <ContentsCenterWrapper>
               <ChatWrapper>
-                <ChatContainer></ChatContainer>
-                {user && (
-                  <ChatInputBox>
-                    <img src={user.picture + '&s=70'} alt={'user profile'} />
-                    <ChatInput
-                      type="text"
-                      placeholder="Click here to type a chat message."
-                      onChange={e => setChatInputHeight(e.target)}
-                    />
-                  </ChatInputBox>
-                )}
+                <BottomBox ref={wrapperRef}>
+                  <div ref={targetRef}></div>
+                  <ChatContainer>
+                    {contents.content.map((message, index) => (
+                      <ChatPresenter
+                        key={index}
+                        prevMessage={contents.content[index - 1]}
+                        message={message}
+                        openThread={openThread}
+                      />
+                    ))}
+                  </ChatContainer>
+                </BottomBox>
+                <ChatInputBox
+                  user={user}
+                  room={room}
+                  message={message}
+                  setMessage={setMessage}
+                  sendChatMessage={sendChatMessage}
+                />
               </ChatWrapper>
             </ContentsCenterWrapper>
           </PageWrapper>
-          {showAddOn && <ChatThread setShowAddOn={setShowAddOn} />}
+          {showThread && (
+            <ChatThread setShowThread={setShowThread} chat={selectChat} />
+          )}
         </>
       )}
     </>
@@ -48,7 +115,8 @@ const Chat = ({ user, room }) => {
 
 const ContentsCenterWrapper = styled.div`
   margin: 0 auto;
-  width: 1200px;
+  min-width: 600px;
+  max-width: 1200px;
   height: calc(100% - 45px);
   padding: 0 20px;
 `
@@ -59,42 +127,23 @@ const ChatWrapper = styled.div`
   height: 100%;
 `
 
+const BottomBox = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
+  margin-top: 3px;
+  overflow-y: scroll;
+  padding-top: 20px;
+`
+
 const ChatContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  height: 100%;
-`
+  flex-wrap: wrap;
 
-const ChatInputBox = styled.div`
-  margin-top: auto;
-  margin-bottom: 15px;
-  display: inline-flex;
-  padding: 20px;
-
-  border: 1px solid ${COLOR.LIGHT_GREY};
-  border-radius: 12px;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.25);
-
-  & > img {
-    width: 35px;
-    height: 35px;
-    border-radius: 4px;
-    margin-right: 15px;
-  }
-`
-
-const ChatInput = styled.textarea`
   width: 100%;
-  min-height: 44px;
-  max-height: 300px;
-  border: none;
-  resize: none;
-  font-size: 1.2em;
-  line-height: 1.38em;
-
-  :focus-visible {
-    outline: none;
-  }
+  margin-top: auto;
+  align-content: end;
 `
 
 export default Chat

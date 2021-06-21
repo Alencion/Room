@@ -23,7 +23,7 @@ const RoomPage = ({ match }) => {
         setRoom(res)
       })
     }
-  }, [])
+  }, [match.params.roomId, match.params.userId])
 
   const contents = {
     0: <RoomInfo room={room} />,
@@ -62,6 +62,7 @@ const ContentsWrapper = styled.div`
   display: flex;
   transition: 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: ${props => (props.showNav ? 'calc(100% - 250px)' : '100%')};
+  min-width: 600px;
   margin-left: ${props => (props.showNav ? '250px' : '0')};
   height: 100%;
 `

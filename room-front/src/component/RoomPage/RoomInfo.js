@@ -35,12 +35,13 @@ const RoomInfo = ({ room }) => {
 
 const ContentsCenterWrapper = styled.div`
   margin: 0 auto;
-  width: 900px;
+  margin-top: 80px;
+  width: 1100px;
+  padding: 0 100px;
 `
 
 const RoomInfoWrapper = styled.div`
   display: flex;
-  margin-top: 80px;
   flex-direction: column;
 `
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const MemberCard = ({ member }) => {
-  const [user, setUser] = useState(member.user)
+  const [user] = useState(member.user)
 
   return (
     <>
