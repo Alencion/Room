@@ -7,11 +7,14 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import useSocket from '../../hooks/useSocket'
 import ThreadChatPresenter from '../../presenter/chat/ThreadChatPresenter'
 import Icon from '../../presenter/icon/Icon'
+import Loading from '../../presenter/loading/Loading'
 import RightWrapper from '../../presenter/wrapper/RightWrapper'
 
 const ChatThread = ({ setShowThread, chat }) => {
   const [contents, setContents] = useState({ content: [] })
   const [message, setMessage] = useState('')
+  const [onLoading, setOnLoading] = useState(false)
+  const [onScrollDown, setOnScrollDown] = useState(true)
   const page = useRef(1)
 
   const wrapperRef = useRef()
@@ -21,6 +24,7 @@ const ChatThread = ({ setShowThread, chat }) => {
     '/thread',
     '/topic/chat/thread/' + chat.id,
     newMessage => {
+      setOnScrollDown(true)
       setContents(prev => {
         return { ...prev, content: [...prev.content, newMessage] }
       })
@@ -33,13 +37,16 @@ const ChatThread = ({ setShowThread, chat }) => {
     onIntersect: ([{ isIntersecting }]) => {
       if (isIntersecting && page.current < contents.totalPages) {
         page.current++
-        ChatAPi.fetchThread(chat.id, page.current).then(res => {
-          res.content = res.content.sort((c1, c2) => c1.id - c2.id)
-          setContents({
-            ...contents,
-            content: [...res.content, ...contents.content],
+        setOnLoading(true)
+        ChatAPi.fetchThread(chat.id, page.current)
+          .then(res => {
+            res.content = res.content.sort((c1, c2) => c1.id - c2.id)
+            setContents({
+              ...contents,
+              content: [...res.content, ...contents.content],
+            })
           })
-        })
+          .then(() => setOnLoading(false))
       }
     },
   })
@@ -52,7 +59,10 @@ const ChatThread = ({ setShowThread, chat }) => {
   }, [chat.id])
 
   useEffect(() => {
-    wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
+    if (contents.content.length !== 0 && onScrollDown) {
+      wrapperRef.current.scrollTop = wrapperRef.current.scrolHeight
+      setOnScrollDown(false)
+    }
   }, [contents])
 
   const onEnterDown = e => {
@@ -75,6 +85,7 @@ const ChatThread = ({ setShowThread, chat }) => {
         </RightWrapper>
       </ChatThreadHeader>
       <ChatThreadContents>
+        <Loading onLoading={onLoading} />
         <ThreadContainer ref={wrapperRef}>
           <div ref={targetRef}></div>
           {contents.content.map((threadChat, index) => (
@@ -134,6 +145,8 @@ const ChatThreadContents = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100% - 47px);
+
+  position: relative;
 `
 
 const ThreadContainer = styled.div`
