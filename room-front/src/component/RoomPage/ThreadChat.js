@@ -60,7 +60,7 @@ const ChatThread = ({ setShowThread, chat }) => {
 
   useEffect(() => {
     if (contents.content.length !== 0 && onScrollDown) {
-      wrapperRef.current.scrollTop = wrapperRef.current.scrolHeight
+      wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
       setOnScrollDown(false)
     }
   }, [contents])
