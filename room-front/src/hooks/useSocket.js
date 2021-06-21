@@ -38,7 +38,7 @@ const useSocket = (setContents, sendUrl, subscribeUrl, callback) => {
         stompClient.disconnect()
       }
     }
-  }, [setContents, subscribeUrl, callback])
+  }, [setContents, subscribeUrl])
 
   return sendChatMessage
 }

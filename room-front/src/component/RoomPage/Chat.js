@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ChatAPi from '../../api/ChatAPi'
-import { COLOR } from '../../constant/style'
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import useSocket from '../../hooks/useSocket'
+import ChatInputBox from '../../presenter/chat/ChatInputBox'
 import ChatPresenter from '../../presenter/chat/ChatPresenter'
 import RoomHeader from '../../presenter/header/RoomHeader'
 import PageWrapper from '../../presenter/wrapper/PageWrapper'
@@ -57,18 +57,6 @@ const Chat = ({ user, room }) => {
     wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight
   }, [contents])
 
-  const setChatInputHeight = target => {
-    target.style.height = 0
-    target.style.height = target.scrollHeight + 'px'
-  }
-
-  const onEnterDown = e => {
-    if (e.key === 'Enter' && message !== '') {
-      sendChatMessage({ userId: user.id, roomId: room.id, content: message })
-      setMessage('')
-    }
-  }
-
   const openThread = message => {
     setShowThread(true)
     setSelectChat(message)
@@ -95,23 +83,13 @@ const Chat = ({ user, room }) => {
                     ))}
                   </ChatContainer>
                 </BottomBox>
-                {user && (
-                  <ChatInputBox>
-                    <img src={user.picture + '&s=70'} alt={'user profile'} />
-                    <ChatInput
-                      type="text"
-                      placeholder="Click here to type a chat message."
-                      value={message}
-                      onChange={e => {
-                        if (e.target.value !== '\n') {
-                          setMessage(e.target.value)
-                        }
-                        setChatInputHeight(e.target)
-                      }}
-                      onKeyDown={e => onEnterDown(e)}
-                    />
-                  </ChatInputBox>
-                )}
+                <ChatInputBox
+                  user={user}
+                  room={room}
+                  message={message}
+                  setMessage={setMessage}
+                  sendChatMessage={sendChatMessage}
+                />
               </ChatWrapper>
             </ContentsCenterWrapper>
           </PageWrapper>
@@ -155,38 +133,6 @@ const ChatContainer = styled.div`
   width: 100%;
   margin-top: auto;
   align-content: end;
-`
-
-const ChatInputBox = styled.div`
-  margin-top: auto;
-  margin-bottom: 15px;
-  display: inline-flex;
-  padding: 20px;
-
-  border: 1px solid ${COLOR.LIGHT_GREY};
-  border-radius: 12px;
-  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.25);
-
-  & > img {
-    width: 35px;
-    height: 35px;
-    border-radius: 4px;
-    margin-right: 15px;
-  }
-`
-
-const ChatInput = styled.textarea`
-  width: 100%;
-  min-height: 44px;
-  max-height: 300px;
-  border: none;
-  resize: none;
-  font-size: 1.2em;
-  line-height: 1.38em;
-
-  :focus-visible {
-    outline: none;
-  }
 `
 
 export default Chat
