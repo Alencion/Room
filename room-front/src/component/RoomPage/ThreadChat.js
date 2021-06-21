@@ -16,10 +16,15 @@ const ChatThread = ({ setShowThread, chat }) => {
 
   const wrapperRef = useRef()
   const targetRef = useRef()
-  const [, sendChatMessage] = useSocket(
+  const sendChatMessage = useSocket(
     setContents,
     '/thread',
     '/topic/chat/thread/' + chat.id,
+    newMessage => {
+      setContents(prev => {
+        return { ...prev, content: [...prev.content, newMessage] }
+      })
+    },
   )
 
   useIntersectionObserver({

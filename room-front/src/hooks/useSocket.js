@@ -13,7 +13,7 @@ const stompConnect = (stompSuccessCallback, stompFailureCallback) => {
   stompClient.connect({}, stompSuccessCallback, stompFailureCallback)
 }
 
-const useSocket = (setContents, sendUrl, subscribeUrl) => {
+const useSocket = (setContents, sendUrl, subscribeUrl, callback) => {
   const sendChatMessage = message => {
     stompClient.send(sendUrl, {}, JSON.stringify(message))
   }
@@ -23,9 +23,7 @@ const useSocket = (setContents, sendUrl, subscribeUrl) => {
       () => {
         stompClient.subscribe(subscribeUrl, data => {
           const newMessage = JSON.parse(data.body)
-          setContents(prev => {
-            return { ...prev, content: [...prev.content, newMessage] }
-          })
+          callback(newMessage)
         })
       },
       error => {
@@ -40,9 +38,9 @@ const useSocket = (setContents, sendUrl, subscribeUrl) => {
         stompClient.disconnect()
       }
     }
-  }, [setContents, subscribeUrl])
+  }, [setContents, subscribeUrl, callback])
 
-  return [stompClient, sendChatMessage]
+  return sendChatMessage
 }
 
 export default useSocket
