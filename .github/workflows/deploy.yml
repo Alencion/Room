@@ -41,6 +41,17 @@ jobs:
       - name: Build with Maven
         run: ./mvnw build
         shell: bash
+
+      # install node
+      - uses: actions/setup-node@v2
+         with:
+           node-version: '14'
+
+      - name: build frond
+        run: |
+          cd ./room-front
+          npm i
+          npm build
         
       - name: Make zip file
         run: zip -qq -r ./$GITHUB_SHA.zip .

@@ -1,11 +1,12 @@
 REPOSITORY=/opt/room
 cd $REPOSITORY
 
-APP_NAME=room
-JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
-JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
+SERVER_NAME=room-api-server
 
-CURRENT_PID=$(pgrep -f $APP_NAME)
+JAR_NAME=$(ls $REPOSITORY/$SERVER_NAME/build/libs/ | grep '.jar' | tail -n 1)
+JAR_PATH=$REPOSITORY/$SERVER_NAME/build/libs/$JAR_NAME
+
+CURRENT_PID=$(pgrep -f $SERVER_NAME)
 
 if [ -z $CURRENT_PID ]
 then
@@ -16,5 +17,5 @@ else
   sleep 5
 fi
 
-echo "> $JAR_PATH 배포"
+echo "> $SERVER_NAME $JAR_PATH 배포"
 nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
