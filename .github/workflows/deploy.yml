@@ -52,6 +52,7 @@ jobs:
           cd ./room-front
           npm i
           npm build
+          cd ..
         
       - name: Make zip file
         run: zip -qq -r ./$GITHUB_SHA.zip .
