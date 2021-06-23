@@ -39,7 +39,7 @@ jobs:
         shell: bash
         
       - name: Build with Maven
-        run: ./mvnw build
+        run: ./mvnw package
         shell: bash
 
       # install node
