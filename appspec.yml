@@ -6,8 +6,8 @@ files:
     destination: /opt/room
 permissions:
   - object: /opt/room/
-    owner: centos
-    group: centos
+    owner: ubuntu
+    group: ubuntu
     mode: 755
 hooks:
   AfterInstall:
